@@ -3,13 +3,31 @@
 # WEEK 1
     # conditionals 
     # Jenny+Yuan
-"""if 
-"""
+"""'
+we want to use conditionals to output aliens! 
+why does the code not run as intended? 
+
+Assume the variable str contains some beginning of the word
+
+if len(str) > 2:
+    str = str + "ens!"
+if len(str) > 3:
+    str = str + "ns!"
+if len(str) > 4:
+    str = str + "s!"
+else: 
+    str = str + "!"
+
+print(str)
+
+""" 
    
 
 # WEEK 2
     # functions / returns / slicing
-    # Jenny+Yuan    
+    # Jenny+Yuan   
+
+ 
 
 # WEEK 3
     # Rachel+Jonathan

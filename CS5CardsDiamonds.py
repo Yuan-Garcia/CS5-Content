@@ -8,7 +8,7 @@
 # WEEK 2
     # functions / returns / slicing / recursion
     # Jenny+Yuan    
-""" image compression recursive"""
+""" image compression recursive """
 
 # WEEK 3
     # Rachel+Jonathan

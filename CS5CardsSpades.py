@@ -23,6 +23,13 @@
 # WEEK 2
     # functions / returns / slicing / recursion
     # Jenny+Yuan  
+""" 
+function()
+    if base case:
+        return something
+    else:
+        function call with smaller input
+"""
     
 
 # WEEK 3
