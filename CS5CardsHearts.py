@@ -3,6 +3,7 @@
 # WEEK 1
     # conditionals 
     # Jenny+Yuan
+   
 
 # WEEK 2
     # functions / returns / slicing
@@ -10,6 +11,7 @@
 
 # WEEK 3
     # Rachel+Jonathan
+
 # WEEK 4
 
 # WEEK 5
