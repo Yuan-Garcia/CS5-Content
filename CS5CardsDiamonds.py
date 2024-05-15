@@ -1,15 +1,14 @@
-# Action cards - pseudo, prompting, output, questions, practice, etc. 
+# jokes 
 
 # WEEK 1
     # conditionals 
     # Jenny+Yuan
-"""if 
-"""
    
 
 # WEEK 2
-    # functions / returns / slicing
+    # functions / returns / slicing / recursion
     # Jenny+Yuan    
+""" image compression recursive"""
 
 # WEEK 3
     # Rachel+Jonathan

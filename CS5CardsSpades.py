@@ -1,13 +1,29 @@
-# Definitions and pseudocode 
+# Definitions and examples  
 
 # WEEK 1
     # conditionals 
     # Jenny+Yuan
+"""replace with old J of hearts
+    if, elif, else...
+    What's Different?
+
+    1. if, elif, else...
+        English version:
+        If this happens, then (code)
+        otherwise, if this happens, (code)
+        when all else fails, (code)
+    2. if, if, else...
+        English version:
+        If this happens, then(code)
+        if that happens, then (code)
+        when that doesn't happen, (code)
+"""
    
 
 # WEEK 2
-    # functions / returns / slicing
-    # Jenny+Yuan    
+    # functions / returns / slicing / recursion
+    # Jenny+Yuan  
+    
 
 # WEEK 3
     # Rachel+Jonathan
