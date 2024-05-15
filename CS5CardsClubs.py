@@ -1,6 +1,6 @@
 # Backpocket 13
 # WEEK 1
-
+# conditionals 
 temp = 42
 if temp < 0:
     print("icy!")
