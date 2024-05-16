@@ -36,13 +36,14 @@ def rwsteps(startX, startY, lowX, lowY, hiX, hiY):
         rwsteps returns the # of steps taken 
         when the walker reaches an edge
     """
-    walkway = "_"*(hiX-lowX)*(hiY-lowY)    # create a walkway of underscores
+    walkway = ("_"*(hiX-lowX)+"\n")*(hiY-lowY)    # create a walkway of underscores
     posX = (startX-lowX) 
     posY = (startY-lowY)          # this is our sleepwalker's location, start-low
-
+    S = posX*posY
+    
+    walkway = walkway[:S] + "S" + walkway[S+1:]  # put our sleepwalker, "S", there
     print(walkway)
-''' walkway = walkway[:S] + "S" + walkway[S:]  # put our sleepwalker, "S", there
-
+'''
     walkway = " " + walkway + " "              # surround with spaces, for now...
 
     print(walkway, "    ", start, low, hi)     # print everything to keep track...
@@ -55,4 +56,4 @@ def rwsteps(startX, startY, lowX, lowY, hiX, hiY):
         newstart = start + rs()                # takes one step, from start to newstart
         return 1 + rwsteps(newstart, low, hi)  # counts one step, recurses for the rest!
 '''
-rwsteps(0,0,-5,-5,5,5)
+print(rwsteps(0,0,-5,-5,5,5))
