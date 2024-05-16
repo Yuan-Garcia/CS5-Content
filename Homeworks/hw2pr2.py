@@ -42,18 +42,18 @@ def rwsteps(startX, startY, lowX, lowY, hiX, hiY):
     S = posX*posY
     
     walkway = walkway[:S] + "S" + walkway[S+1:]  # put our sleepwalker, "S", there
-    print(walkway)
+    time.sleep(0.05) 
+    if startX <= lowX or startX >= hiX:            # base case: no steps if we're at an endpt
+        return 0
+    elif startY <= lowY or startY >= hiY: 
+        return 0
+    else:
+        newstart = rwpos(startX, startY, 1)                # takes one step, from start to newstart
+        return 1 + rwsteps(newstart, lowX, lowY, hiX, hiY)  # counts one step, recurses for the rest!
 '''
     walkway = " " + walkway + " "              # surround with spaces, for now...
 
     print(walkway, "    ", start, low, hi)     # print everything to keep track...
-    time.sleep(0.05)                               # ignore this
+'''    
 
-    if start <= low or start >= hi:            # base case: no steps if we're at an endpt
-        return 0
-    
-    else:
-        newstart = start + rs()                # takes one step, from start to newstart
-        return 1 + rwsteps(newstart, low, hi)  # counts one step, recurses for the rest!
-'''
 print(rwsteps(0,0,-5,-5,5,5))
