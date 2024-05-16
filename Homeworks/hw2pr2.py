@@ -28,4 +28,31 @@ def rwpos(startX, startY, nsteps):
 
         return rwpos(newposX, newposY, nsteps - 1)
     
+def rwsteps(startX, startY, lowX, lowY, hiX, hiY):
+    """ rwsteps models a random walker which
+        * is currently at start 
+        * is in a walkway from low (usually 0) to hi (max location) 
+          
+        rwsteps returns the # of steps taken 
+        when the walker reaches an edge
+    """
+    walkway = "_"*(hiX-lowX)*(hiY-lowY)    # create a walkway of underscores
+    posX = (startX-lowX) 
+    posY = (startY-lowY)          # this is our sleepwalker's location, start-low
+
+    print(walkway)
+''' walkway = walkway[:S] + "S" + walkway[S:]  # put our sleepwalker, "S", there
+
+    walkway = " " + walkway + " "              # surround with spaces, for now...
+
+    print(walkway, "    ", start, low, hi)     # print everything to keep track...
+    time.sleep(0.05)                               # ignore this
+
+    if start <= low or start >= hi:            # base case: no steps if we're at an endpt
+        return 0
     
+    else:
+        newstart = start + rs()                # takes one step, from start to newstart
+        return 1 + rwsteps(newstart, low, hi)  # counts one step, recurses for the rest!
+'''
+rwsteps(0,0,-5,-5,5,5)
