@@ -1,6 +1,7 @@
 import time
 import random  
 
+#hw2pr2 2D extra-credit
 def rs():
     """rs chooses a random step and returns it. 
        Note that a call to rs() requires parentheses.
