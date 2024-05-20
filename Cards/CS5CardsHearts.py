@@ -52,6 +52,17 @@ print(str)
 
 # WEEK 11
 # Rachel+Leena
+"""
+Using the following lines of code, determine which code(s) will not run and which one(s) will, with reasons and their predicted output
+Code 1: t = (9, 4, 6)
+             t[1] = 5          
+   
+Code 2: d = [{“a” : “apple”}, {“b” : “ball”}, {“c” : “cage”}]
+              d[“a”] = “antelope” 
+
+Code 3: l = [‘w’, 34’ ‘r’, [20,90,42]]
+              l[2] = 24
+"""
 
 # WEEK 12
 # Jonathan+Florence
