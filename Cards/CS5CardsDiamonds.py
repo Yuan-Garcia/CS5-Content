@@ -33,7 +33,10 @@
 
 # WEEK 11
 # Rachel+Leena
-
+"""
+Why did the tuple break up with the set?
+Because it couldn't handle the unordered relationship!
+"""
 # WEEK 12
 # Jonathan+Florence
 
