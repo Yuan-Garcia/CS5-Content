@@ -80,7 +80,7 @@ def poptart_race(sA, sB, PT):
 
     steps = rwsteps(max(sA, sB), low, hi)
     print("\nWinner reached the poptart in", steps, "steps!")
-poptart_race(10, 30, 21)
+#poptart_race(10, 30, 21)
 #POPTART is NONFUNCTIONAL RN
 '''
 #hw2pr2 2D extra-credit
@@ -140,3 +140,5 @@ def rwsteps(startX, startY, lowX, lowY, hiX, hiY):
    
 
 print(rwsteps(0,0,-5,-5,5,5))'''
+
+
