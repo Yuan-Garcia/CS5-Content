@@ -55,6 +55,20 @@ function()
 
 # WEEK 11
 # Rachel+Leena
+# Tuples 
+"""
+What are tuples? 
+Tuples are immutable lists. Elements of a tuple are enclosed in parenthesis and are separated by commas. 
+Example:
+T = (1, 2, 3) 
+
+#In: T[0]
+#Out: 1
+
+Since tuples are immutable:
+# In: T[2] = 42 
+Error!
+"""
 
 # WEEK 12
 # Jonathan+Florence
