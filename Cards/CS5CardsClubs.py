@@ -151,6 +151,15 @@ print(a1)  # aliiien
 
 
 # WEEK 11
+def f(x,y):
+    "function to test out tuples"
+    return x + y*4
+
+#In: f(2,3)
+#Out: 14
+
+#In: f(0,4)
+#Out: 16
 
 # halt
 def hc(f):
