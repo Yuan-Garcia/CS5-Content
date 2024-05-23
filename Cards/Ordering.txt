@@ -1,15 +1,30 @@
-Clubs
+Clubs (code)
 Want:    A 2 3 4 5 6 7 8 9 10 J Q K
 Current: A 2 3 4 5 Q 6 7 8 10 9 K J
 
-Spades
+Spades (pseudocode)
 Want:    A 2 3 4 5 6 7 8 9 10 J Q K
 Current: Jh 7h - Q 5A - K - - J Ah 7 -
 
-Hearts:
+Hearts (questions, active)
 Want:    A 2 3 4 5 6 7 8 9 10 J Q K
 Current: 410 5 2 _ _ 2s K8 _ 9 _ Q _ _
 
-Diamonds
+Diamonds (topical jokes)
 Want:    A 2 3 4 5 6 7 8 9 10 J Q K
 Current: A 2 K 3 5 _ 10 7 66h 9 J 8 Q
+
+WEEKS TOPICS:
+A: conditionals, slicing
+2: functions, recursion
+3: List comprehensions, basic monte carlo
+4: Algorithms, recursion+
+5: Binary
+6: Circuits (maybe Hmmm)
+7: Loops
+8: Loops, monte carlo
+9: nested loops, 2D data
+10: OOP
+J: Dictionary
+Q: FSM
+K: halting problem
