@@ -14,12 +14,18 @@ print(splitData)
 counts = {
     "cs5": 0, "cs42": 0, "cs70": 0, "cs60": 0, "cs81": 0,
     "cs101": 0, "cs105": 0, "cs131": 0, "cs140": 0, "cs152": 0,
-    "math19": 0, "math55": 0, "math56": 0, "math73": 0, "math164": 0,
-    "math157": 0, "math187": 0, "math189": 0, "math131": 0,
+    "math19": 0, "math55": 0, "math56": 0, "math73": 0, "math164": 0, "math187": 0, "math189": 0, "math131": 0,
     "phys24": 0, "phys64": 0,
     "bio23": 0, "bio46": 0, "bio54": 0, "bio108": 0, "mcb118b": 0
 }
-
+'''
+allData.replace(" ", "")
+splitData = allData.split(",")
+splitData = [x.lower() for x in splitData]
+dataDict = {}
+for i in splitData:
+    dataDict[i] = dataDict.get(i, 0) + 1
+'''
 for item in splitData:
     if "cs5" in item:
         counts["cs5"] += 1
