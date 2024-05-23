@@ -1,0 +1,15 @@
+Clubs
+Want:    A 2 3 4 5 6 7 8 9 10 J Q K
+Current: A 2 3 4 5 Q 6 7 8 10 9 K J
+
+Spades
+Want:    A 2 3 4 5 6 7 8 9 10 J Q K
+Current: Jh 7h - Q 5A - K - - J Ah 7 -
+
+Hearts:
+Want:    A 2 3 4 5 6 7 8 9 10 J Q K
+Current: 410 5 2 _ _ 2s K8 _ 9 _ Q _ _
+
+Diamonds
+Want:    A 2 3 4 5 6 7 8 9 10 J Q K
+Current: A 2 K 3 5 _ 10 7 66h 9 J 8 Q
