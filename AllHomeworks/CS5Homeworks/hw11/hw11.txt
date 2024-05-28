@@ -1,0 +1,5 @@
+First, ask GenAI to create a code which allows a user to play the game, Connect Four. Did the AI use functions or implemented different ways of writing the code for the game. If yes, compare your code and its code. Which one seems better?
+
+Then, ask GenAI to play Connect Four with you as you also play with the AI function in your code. Compare and contrast both responses from the AI function and GenAI as you play.
+
+Play connect 4 with AI and put in screenshots of things that AI did well and things it didn’t do well  
