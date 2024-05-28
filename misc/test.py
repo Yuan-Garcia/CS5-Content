@@ -1,5 +1,3 @@
-
-l = ['w', 34,'r', [20,90,42]]
-l[3] = 24
-
+name = input("what is your name?")
+print(name)
 
