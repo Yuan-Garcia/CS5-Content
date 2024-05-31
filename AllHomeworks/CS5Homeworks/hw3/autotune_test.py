@@ -398,10 +398,6 @@ def changeSpeed(filename, newsr, graph = False):
         CS5Audio.plot_wave(filename, 'out.wav') #plot both filename and the output file
 
 
-
-
-
-
 def pitch_shift(filename, shift_hz):
     samps, sr = CS5Audio.readwav(filename)
     
@@ -463,13 +459,44 @@ def estimate_fundamental_freq(samps, sr):
     fmin = note_to_hz('C2')
     fmax = note_to_hz('C7')
 
-    f0, voiced_flag, voiced_probs = librosa.pyin(samps, sr=sr, fmin=fmin, fmax=fmax)
+    f0, voiced_flag, voiced_probs = librosa.pyin(samps, sr=sr, fmin=fmin, fmax=fmax, max_transition_rate=100)
     times = librosa.times_like(f0, sr=sr)
 
     return f0, np.array(times)
 
+def autotune(f0):
+    '''
+    Autotune takes in a numpy array of fundamental frequencies (f0, calculated with estimate_fundamental_freq)
+    and "rounds" each frequency to the nearest MIDI note.
+    '''
+    # Convert f0 to midi and round to the nearest "whole" note (12-TET)
+    corrected_notes = np.around(librosa.hz_to_midi(f0))
 
-def plot_spectrogram(filename, fft_h_res = 2048, fft_v_scale = 16):
+    # Preserve nan values
+    nan_indices = np.isnan(f0)
+    corrected_notes[nan_indices] = np.nan
+
+    # Convert back to Hz.
+    corrected_freqs = librosa.midi_to_hz(corrected_notes)
+
+    return corrected_freqs
+
+def non_constant_pitch_shift(stft, freq_contour):
+#vertical bin: width of [time], height of 1024 indecies, up to sr/2 hz
+
+# divide x axis into bins of width [distance between pyin/corrected points] center at the point (includes nan) <-- here rn
+# roll bin up by difference between pyin and corrected [stay in loc form], remove the roll over
+# istft and rewrite into wave 
+
+# tune pyin to be higher resolution for steep pitch changes? [find example and test]
+
+# for cs5, convert the index-based spectrogram to 3d data (time, freq, amplitude) to not have to deal with locs?
+
+    print(len(freq_contour))
+
+
+
+def plot_spectrogram(filename, fft_h_res = 2048, fft_v_scale = 16, plot_f0 = False, plot_corrected_f0 = False):
     '''plot_spectrogram plots the spectrogram of the audio file specified by filename.
        The spectrographic data is calculated using Librosa's Short-Time Fourier Transform (STFT) function.
        fft_h_res specifies the number of samples in each FFT window.
@@ -485,15 +512,18 @@ def plot_spectrogram(filename, fft_h_res = 2048, fft_v_scale = 16):
     hop_length = frame_length // fft_v_scale
     stft = librosa.stft(np.array(samps), n_fft=frame_length, hop_length=hop_length)   # Compute the STFT, which returns a complex matrix of FFT coeffecients
     log_stft = librosa.amplitude_to_db(np.abs(stft), ref=np.max)    #np.abs(stft) returns only the amplitude of each matric entry
+    print(stft.shape)
     
 
+    
     # Y-Axis Settings
     ax.set_yscale(matplotlib.scale.LogScale(2))
-    ys =[0]+[64*2**x for x in range(8)]     # 0-8192 by powers of 2, skipping to 64
+    ys =[0]+[64*2**x for x in range(8)]      # 0-8192 by powers of 2, skipping to 64
     y_loc = lambda y: (fft_h_res/sr) * y    # conversion between frequency and y index
-    plt.yticks([y_loc(y) for y in ys], ys)
+    ax.set_yticks([y_loc(y) for y in ys], ys)
+    ax.minorticks_off()
     ax.set_ylim(2,fft_h_res/2)
-    plt.ylabel('Frequency [Hz]')
+    ax.set_ylabel('Frequency [Hz]')
 
     #X-Axis Settings
     for possible_x_scale in [0.1, 0.25, 0.5, 1, 2, 5, 10]:        # Find the resolution of the x-axis that keeps the ticks to a resonable amount
@@ -504,57 +534,43 @@ def plot_spectrogram(filename, fft_h_res = 2048, fft_v_scale = 16):
             break
     xs = [round(x_scale * x, 2) for x in range(num_of_x_ticks + 1)]
     x_loc = lambda x: (sr / hop_length) * x            # conversion between time and x index
-    plt.xticks([x_loc(x) for x in xs], xs)
-    plt.xlabel('Time [s]')
+    #default 22050/128 = 172.265
+    ax.set_xticks([x_loc(x) for x in xs], xs)
+    ax.set_xlabel('Time [s]')
 
 
-    f0, times = estimate_fundamental_freq(samps, sr)
-    times_loc = [x_loc(time) for time in times if time != np.nan]
-    freqs_loc = [y_loc(freq) for freq in f0 if freq != np.nan]
-    ax.plot(times_loc, freqs_loc, label='f0', color='cyan', linewidth=2)
-    
     # Plot the spectrogram
     spect = ax.imshow(log_stft, aspect='auto', origin='lower', cmap='magma')
-    cbar = fig.colorbar(spect, ax=ax, format="%+2.0f dB")
-    plt.title('Power Spectrogram of ' + filename)
-    plt.minorticks_off()
+    fig.colorbar(spect, ax=ax, format="%+2.0f dB")
+    ax.set_title('Power Spectrogram of ' + filename)
+
+
+    # Plot indentified/corrected pitches
+    if plot_f0 == True:
+        f0, times = estimate_fundamental_freq(samps, sr)
+        times_loc = [x_loc(time) for time in times if time != np.nan]
+        freqs_loc = [y_loc(freq) for freq in f0 if freq != np.nan]
+        ax.plot(times_loc, freqs_loc, label='f0', color='red', linewidth=4)
+
+    if plot_corrected_f0 == True and plot_f0 == True:
+        corrected_freqs = autotune(f0)
+        corrected_freqs_loc = np.array([y_loc(freq) for freq in corrected_freqs if freq != np.nan])
+        #print(corrected_freqs_loc)
+        #corrected_freqs_loc[np.isnan(corrected_freqs_loc)] = 5
+        #print(len(corrected_freqs_loc))
+        ax.plot(times_loc, corrected_freqs_loc, label='corrected f0', color='cyan', linewidth=2)
+
+    elif plot_corrected_f0 == True and plot_f0 == False:
+        print("f0 must be plotted for corrected_f0 to be plotted")
+        #maybe change?
+    
+
+    non_constant_pitch_shift(log_stft, corrected_freqs_loc)
+    
+    
+    plt.legend(loc='upper left', labelcolor = 'white', framealpha = 0.1)
     plt.show()
 
 
-#CS5Audio.play('spam.wav')
-plot_spectrogram('swnotry.wav')
 
-
-
-# time_points = librosa.times_like(stft, sr=sr, hop_length=hop_length)
-# fig, ax = plt.subplots()
-# img = librosa.display.specshow(log_stft, x_axis='time', y_axis='log', ax=ax, sr=sr, hop_length=hop_length, fmin=fmin, fmax=fmax)
-# fig.colorbar(img, ax=ax, format="%+2.f dB")
-# ax.plot(time_points, f0, label='original pitch', color='cyan', linewidth=2)
-# ax.plot(time_points, corrected_f0, label='corrected pitch', color='orange', linewidth=1)
-# ax.legend(loc='upper right')
-# plt.ylabel('Frequency [Hz]')
-# plt.xlabel('Time [M:SS]')
-# plt.savefig('pitch_correction.png', dpi=300, bbox_inches='tight')
-
-
-y, sr = librosa.load('ronjo.wav')
-
-f0, voiced_flag, voiced_probs = librosa.pyin(y, sr=sr, fmin=librosa.note_to_hz('C2'), fmax=librosa.note_to_hz('C7'))
-
-times = librosa.times_like(f0, sr=sr)
-
-D = librosa.amplitude_to_db(np.abs(librosa.stft(y)), ref=np.max)
-
-fig, ax = plt.subplots()
-
-img = librosa.display.specshow(D, x_axis='time', y_axis='log', ax=ax)
-
-ax.set(title='pYIN fundamental frequency estimation')
-
-fig.colorbar(img, ax=ax, format="%+2.f dB")
-
-ax.plot(times, f0, label='f0', color='cyan', linewidth=3)
-
-ax.legend(loc='upper right')
-plt.show()
+plot_spectrogram('ronjo.wav', plot_f0 = True, plot_corrected_f0 = True)
