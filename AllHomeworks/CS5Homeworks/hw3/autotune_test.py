@@ -11,6 +11,7 @@ import librosa
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+from IPython.display import Audio
 
 sys.path.insert(1, '/content/gdrive/Shared drives/CS5_Test/hw3pr1_files')
 
@@ -457,71 +458,103 @@ def note_to_hz(note_name):
     
     return frequency
 
-
-
-
-def plot_spectrogram(filename):
-    fig, ax = plt.subplots()
-
-    frame_length = 512
-    hop_length = frame_length // 4
-    fmin = note_to_hz('C0')
+def estimate_fundamental_freq(samps, sr):
+    
+    fmin = note_to_hz('C2')
     fmax = note_to_hz('C7')
 
+    f0, voiced_flag, voiced_probs = librosa.pyin(samps, sr=sr, fmin=fmin, fmax=fmax)
+    times = librosa.times_like(f0, sr=sr)
+
+    return f0, np.array(times)
+
+
+def plot_spectrogram(filename, fft_h_res = 2048, fft_v_scale = 16):
+    '''plot_spectrogram plots the spectrogram of the audio file specified by filename.
+       The spectrographic data is calculated using Librosa's Short-Time Fourier Transform (STFT) function.
+       fft_h_res specifies the number of samples in each FFT window.
+       fft_v_scale specifies the how narrow the vertical bins of the FFT are relative to fft_h_res (v-res = fft_h_res // fft_v_scale).
+    '''
+    fig, ax = plt.subplots()
+    #samps, sr = librosa.load(librosa.ex('trumpet'))
     samps, sr = CS5Audio.readwav(filename)
-    file_time = len(samps) / sr
-    print(file_time)
-    samps = np.array(samps)/32768
-
-    freqs = librosa.fft_frequencies(sr=sr, n_fft=frame_length)
-    # 22050 samps/sec / 128 samps/hop
+    samps = np.array(samps)         # Convert the list of samples to a numpy array
+        
+    # Compute the Short-Time Fourier Transform (STFT) of the audio signal
+    frame_length = fft_h_res
+    hop_length = frame_length // fft_v_scale
+    stft = librosa.stft(np.array(samps), n_fft=frame_length, hop_length=hop_length)   # Compute the STFT, which returns a complex matrix of FFT coeffecients
+    log_stft = librosa.amplitude_to_db(np.abs(stft), ref=np.max)    #np.abs(stft) returns only the amplitude of each matric entry
     
-    stft = librosa.stft(samps, n_fft=frame_length, hop_length=hop_length) 
-    log_stft = librosa.amplitude_to_db(np.abs(stft), ref=np.max)
 
-    #ax.set_yscale(matplotlib.scale.LogScale(2))
-    y_loc = lambda y: (256/11025) * y
-    ys =[0]+[64*2**x for x in range(8)]
+    # Y-Axis Settings
+    ax.set_yscale(matplotlib.scale.LogScale(2))
+    ys =[0]+[64*2**x for x in range(8)]     # 0-8192 by powers of 2, skipping to 64
+    y_loc = lambda y: (fft_h_res/sr) * y    # conversion between frequency and y index
     plt.yticks([y_loc(y) for y in ys], ys)
-    ax.set_ylim(1,256)
+    ax.set_ylim(2,fft_h_res/2)
+    plt.ylabel('Frequency [Hz]')
 
-
-    for possible_x_scale in [0.1, 0.25, 0.5, 1, 2, 5]:
-        num_ticks = file_time // possible_x_scale
+    #X-Axis Settings
+    for possible_x_scale in [0.1, 0.25, 0.5, 1, 2, 5, 10]:        # Find the resolution of the x-axis that keeps the ticks to a resonable amount
+        num_ticks = (len(samps) / sr) // possible_x_scale
         if num_ticks > 3 and num_ticks < 8:
             num_of_x_ticks = int(num_ticks)
             x_scale = possible_x_scale
-            print('found x scale')
             break
-    print(num_of_x_ticks)
-    print(x_scale)
+    xs = [round(x_scale * x, 2) for x in range(num_of_x_ticks + 1)]
+    x_loc = lambda x: (sr / hop_length) * x            # conversion between time and x index
+    plt.xticks([x_loc(x) for x in xs], xs)
+    plt.xlabel('Time [s]')
 
-    x_ticks = [round(possible_x_scale * x, 2) for x in range(num_of_x_ticks + 1)]
-    print(x_ticks)
+
+    f0, times = estimate_fundamental_freq(samps, sr)
+    times_loc = [x_loc(time) for time in times if time != np.nan]
+    freqs_loc = [y_loc(freq) for freq in f0 if freq != np.nan]
+    ax.plot(times_loc, freqs_loc, label='f0', color='cyan', linewidth=2)
     
-    x_loc = lambda x: (sr / hop_length) * x
-    plt.xticks([x_loc(x) for x in x_ticks], x_ticks)
-
-
-    spect = ax.imshow(log_stft, aspect='auto', origin='lower', cmap='magma', vmin = np.min(log_stft), vmax = np.max(log_stft))
-    plt.colorbar(spect)
+    # Plot the spectrogram
+    spect = ax.imshow(log_stft, aspect='auto', origin='lower', cmap='magma')
+    cbar = fig.colorbar(spect, ax=ax, format="%+2.0f dB")
+    plt.title('Power Spectrogram of ' + filename)
     plt.minorticks_off()
-    time.sleep(0.5)
     plt.show()
 
-    #32110.447
-    # time_points = librosa.times_like(stft, sr=sr, hop_length=hop_length)
-    # fig, ax = plt.subplots()
-    # img = librosa.display.specshow(log_stft, x_axis='time', y_axis='log', ax=ax, sr=sr, hop_length=hop_length, fmin=fmin, fmax=fmax)
-    # fig.colorbar(img, ax=ax, format="%+2.f dB")
-    # ax.plot(time_points, f0, label='original pitch', color='cyan', linewidth=2)
-    # ax.plot(time_points, corrected_f0, label='corrected pitch', color='orange', linewidth=1)
-    # ax.legend(loc='upper right')
-    # plt.ylabel('Frequency [Hz]')
-    # plt.xlabel('Time [M:SS]')
-    # plt.savefig('pitch_correction.png', dpi=300, bbox_inches='tight')
+
+#CS5Audio.play('spam.wav')
+plot_spectrogram('swnotry.wav')
 
 
 
-plot_spectrogram('swfaith.wav')
+# time_points = librosa.times_like(stft, sr=sr, hop_length=hop_length)
+# fig, ax = plt.subplots()
+# img = librosa.display.specshow(log_stft, x_axis='time', y_axis='log', ax=ax, sr=sr, hop_length=hop_length, fmin=fmin, fmax=fmax)
+# fig.colorbar(img, ax=ax, format="%+2.f dB")
+# ax.plot(time_points, f0, label='original pitch', color='cyan', linewidth=2)
+# ax.plot(time_points, corrected_f0, label='corrected pitch', color='orange', linewidth=1)
+# ax.legend(loc='upper right')
+# plt.ylabel('Frequency [Hz]')
+# plt.xlabel('Time [M:SS]')
+# plt.savefig('pitch_correction.png', dpi=300, bbox_inches='tight')
 
+
+y, sr = librosa.load('ronjo.wav')
+
+f0, voiced_flag, voiced_probs = librosa.pyin(y, sr=sr, fmin=librosa.note_to_hz('C2'), fmax=librosa.note_to_hz('C7'))
+
+times = librosa.times_like(f0, sr=sr)
+
+D = librosa.amplitude_to_db(np.abs(librosa.stft(y)), ref=np.max)
+
+fig, ax = plt.subplots()
+
+img = librosa.display.specshow(D, x_axis='time', y_axis='log', ax=ax)
+
+ax.set(title='pYIN fundamental frequency estimation')
+
+fig.colorbar(img, ax=ax, format="%+2.f dB")
+
+ax.plot(times, f0, label='f0', color='cyan', linewidth=3)
+
+ax.legend(loc='upper right')
+plt.show()
