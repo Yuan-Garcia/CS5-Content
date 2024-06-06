@@ -1,0 +1,20 @@
+# api calls using cURL 
+# create a web api app using spotify developer website
+# get your client_id and client_secret
+# run the following lines of code to get your access_token
+
+your_client_id = "YOUR CLIENT ID HERE"
+client_secret = "YOUR CLIENT SECRET HERE"
+
+install cURL, and run this in your terminal to generate your access token
+curl -X POST "https://accounts.spotify.com/api/token" \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "grant_type=client_credentials&client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET"
+
+run this for json about Radiohead
+curl "https://api.spotify.com/v1/artists/4Z8W4fKeB5YxbusRsdQVPb" \
+     -H "Authorization: Bearer  YOURACCESSTOKENHERE"
+
+run this for json about Ateez
+curl "https://api.spotify.com/v1/artists/68KmkJeZGfwe1OUaivBa2L?si=d2c81919a17c4061" \
+     -H "Authorization: Bearer  YOURACESSTOKENHERE"
