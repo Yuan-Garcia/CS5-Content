@@ -11,9 +11,10 @@ def commentCheck(comment):
     #print(commentCheck("we will see"))
 
 def CyclomaticChicanery(noCommentScriptStr):
+    wordScript = noCommentScriptStr.split(" ")
     addOne = "for|if|for|while|except|with|assert|Comprehension|and|or|not|implies"
     CyclomaticCount = 0
-    for i in noCommentScriptStr:
+    for i in wordScript:
         if re.search(addOne, i):
             CyclomaticCount = CyclomaticCount + 1
     return CyclomaticCount
@@ -21,7 +22,7 @@ def CyclomaticChicanery(noCommentScriptStr):
 def removeComments(fullScript):
     multiLine = "\'\'\'[^']*\'\'\'|\"\"\"[^\"]*\"\"\""
     fullScript = re.sub(multiLine, "", fullScript)
-    fullScript = re.sub("\#[^\n\r]+?(?:[\n\r])","",fullScript)
+    fullScript = re.sub("#.*","",fullScript)
     return fullScript
 
 
@@ -57,13 +58,14 @@ totalScriptList = []
 
 inputfile = open("LOC.py", "r")
 inputfiletest2 = open("LOC.py", "r")
+noCommentsinputfile = removeComments(inputfiletest2.read())
 for x in inputfile:
     totalScriptList.append(x)
     commentList.append(commentCheck(x))
 print("The LOC is: " + str(len(totalScriptList)))
 
 commentList = [z for z in commentList if z != ""]
-
+print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
   
 print("The comment level is: " + str(len(commentList)))
 print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
@@ -71,7 +73,7 @@ print("There are " + str(len(determineFunc(totalScriptList))) + " functions pres
 #print(splitFunc(totalScriptList))
 
 # testing on LOC.py
-print(removeComments(inputfiletest2.read()))
+#print(removeComments(inputfiletest2.read()))
 #print(inputfiletest2.read())
 #print(commentCheck(inputfile.read()))
 
