@@ -15,17 +15,26 @@ def CyclomaticChicanery(noCommentScriptStr):
     addOne = "for|if|for|while|except|with|assert|Comprehension|and|or|not|implies"
     CyclomaticCount = 0
     for i in wordScript:
-        if re.search(addOne, i):
+        if re.search(addOne, i): # if it's in the checkers then decrement the cyclomatic count :)
             CyclomaticCount = CyclomaticCount + 1
     return CyclomaticCount
 
 def removeComments(fullScript):
-    multiLine = "\'\'\'[^']*\'\'\'|\"\"\"[^\"]*\"\"\""
-    fullScript = re.sub(multiLine, "", fullScript)
-    fullScript = re.sub("#.*","",fullScript)
+    multiLine = "\'\'\'[^']*\'\'\'|\"\"\"[^\"]*\"\"\"" # gets all docstrings
+    fullScript = re.sub(multiLine, "", fullScript) # replaces all docstrings with an emptystring
+    fullScript = re.sub("#.*","",fullScript) #replaces everything that has a comment with an emptystring
     return fullScript
 
-
+def funcName(fullScript):
+    tempList = []
+    ansList = []
+    getNames = "(def [a-zA-Z_]+( [^(]+)*)" #gets only the def (name)
+    for i in fullScript:
+        if re.search(getNames, i):
+            tempList.append(i)
+    for n, i in enumerate(tempList):
+        ansList.append((i.split("(")[0])[4:]) #parses out the variable and the "def ", giving only the variable name
+    return ansList
 
 def splitFunc(fullScript):
     scriptList = []
@@ -46,13 +55,6 @@ def splitFunc(fullScript):
 
     return scriptList
 
-def determineFunc(fullScript):
-    scriptList = []
-    for i,n in enumerate(fullScript):
-        if(n.startswith("def ")):
-            scriptList.append(i)
-    return scriptList
-
 commentList = []
 totalScriptList = []
 
@@ -62,14 +64,15 @@ noCommentsinputfile = removeComments(inputfiletest2.read())
 for x in inputfile:
     totalScriptList.append(x)
     commentList.append(commentCheck(x))
-print("The LOC is: " + str(len(totalScriptList)))
+print("The total LOC is: " + str(len(totalScriptList)))
 
 commentList = [z for z in commentList if z != ""]
 print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
   
 print("The comment level is: " + str(len(commentList)))
 print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
-print("There are " + str(len(determineFunc(totalScriptList))) + " functions present")
+print("There are " + str(len(funcName(totalScriptList))) + " functions present")
+print("These functions are: " + str(funcName(totalScriptList)))
 #print(splitFunc(totalScriptList))
 
 # testing on LOC.py
