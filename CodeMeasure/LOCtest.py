@@ -1,6 +1,6 @@
 import re 
 
-def commentCheck(comment):
+def commentCheck(comment): #fix becauyse it works now
     #hashtags = "\#[^\n\r]+?(?:[\n\r])"   # is the actual solution
     hashtags = "[\#]" # is the very temporary solution until I figure out how to get the actual solution to work
     if re.search(hashtags, comment):
@@ -12,7 +12,7 @@ def commentCheck(comment):
 
 def CyclomaticChicanery(noCommentScriptStr):
     wordScript = noCommentScriptStr.split(" ")
-    addOne = "for|if|for|while|except|with|assert|Comprehension|and|or|not|implies"
+    addOne = "for|if|for|while|except|with|assert| in |and|or|not|implies" # add more list comprehensions
     CyclomaticCount = 0
     for i in wordScript:
         if re.search(addOne, i): # if it's in the checkers then decrement the cyclomatic count :)
@@ -28,7 +28,7 @@ def removeComments(fullScript):
 def funcName(fullScript):
     tempList = []
     ansList = []
-    getNames = "(def [a-zA-Z_]+( [^(]+)*)" #gets only the def (name)
+    getNames = "(def +[a-zA-Z_]+( [^(]+)*)" #gets only the def (name)
     for i in fullScript:
         if re.search(getNames, i):
             tempList.append(i)
@@ -36,24 +36,27 @@ def funcName(fullScript):
         ansList.append((i.split("(")[0])[4:]) #parses out the variable and the "def ", giving only the variable name
     return ansList
 
-def splitFunc(fullScript):
+def splitFunc(fullScript): #just remove spaces
     scriptList = []
     tempFunc = ""
     funcToggle = False
+    #print(fullScript)
+    fullScript = [z for z in fullScript if z != "\n"] #removing all useless empty lines!
+    print(fullScript)
     for i in fullScript:
         if(i.startswith("def ")):
             funcToggle = True
-        elif((i.startswith(" ") or i.startswith("\t"))):# or i.startswith("#"))):
+        elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
             funcToggle = True
         else:
             funcToggle = False
         if funcToggle:
-            tempFunc = tempFunc + i #the reason that this method sucks is that if people make a return line with no spaces then it calls it a new function, which no PERSON does, but LLM's do
+            tempFunc = tempFunc + i 
         else:
             scriptList.append(tempFunc)
             tempFunc = ""
-
-    return scriptList
+    print(scriptList)
+    return "foo"#scriptList
 
 commentList = []
 totalScriptList = []
@@ -73,7 +76,7 @@ print("The comment level is: " + str(len(commentList)))
 print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 print("These functions are: " + str(funcName(totalScriptList)))
-#print(splitFunc(totalScriptList))
+print((splitFunc(totalScriptList)))
 
 # testing on LOC.py
 #print(removeComments(inputfiletest2.read()))
