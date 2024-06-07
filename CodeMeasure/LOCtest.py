@@ -38,12 +38,23 @@ def funcName(fullScript):
 
 def splitFunc(fullScript): #just remove spaces
     scriptList = []
+    realScriptList = []
     tempFunc = ""
     funcToggle = False
     #print(fullScript)
-    fullScript = [z for z in fullScript if z != "\n"] #removing all useless empty lines!
-    print(fullScript)
+    #fullScript = [z for z in fullScript if z != "\n"] #removing all useless empty lines!
+    #print(fullScript)
     for i in fullScript:
+        if(i.startswith("def ")):
+            funcToggle = True
+        elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
+            funcToggle = True
+        else:
+            funcToggle = False
+        if not((not funcToggle) and i == "\n"):
+            realScriptList.append(i)
+        #print(len(realScriptList))
+    for i in realScriptList:
         if(i.startswith("def ")):
             funcToggle = True
         elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
@@ -55,8 +66,8 @@ def splitFunc(fullScript): #just remove spaces
         else:
             scriptList.append(tempFunc)
             tempFunc = ""
-    print(scriptList)
-    return "foo"#scriptList
+    #print(len(scriptList))
+    return scriptList
 
 commentList = []
 totalScriptList = []
@@ -76,7 +87,9 @@ print("The comment level is: " + str(len(commentList)))
 print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 print("These functions are: " + str(funcName(totalScriptList)))
-print((splitFunc(totalScriptList)))
+for i, n in enumerate((splitFunc(totalScriptList))):
+    print(n, i)
+#print((splitFunc(totalScriptList)))
 
 # testing on LOC.py
 #print(removeComments(inputfiletest2.read()))
