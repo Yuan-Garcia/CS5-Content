@@ -38,7 +38,7 @@ def fibonacci(n):
     """
     # Step 1: Validate input
     validate_input(n)
-
+    
     # Step 2: Check for base case
     if is_base_case(n):
         return get_base_case_value(n)
