@@ -1,7 +1,6 @@
 import DataRequest_Dictionary_int_act_mapped_for_florence
 import plotly.graph_objects as go
 
-
 # clean up data to include students that recieved or will recieve a degree
 all_Data = DataRequest_Dictionary_int_act_mapped_for_florence.int_act
 graduated = {}
