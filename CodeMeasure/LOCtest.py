@@ -36,6 +36,27 @@ def funcName(fullScript):
         ansList.append((i.split("(")[0])[4:]) #parses out the variable and the "def ", giving only the variable name
     return ansList
 
+
+def findDictionaries(fullScript):
+    dictionaries =  "\{(?:[^{}]|(?R))*\})" #gets dictionary literals
+    
+
+def findRecursion(fullScript):
+    #split into functions, then find function name within the functions
+    #def whitespace word (anything ) colon
+    funcNames = "def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\):" # maps everything from after def to before colon
+    funcBlocks = " " # takes the body of the function
+    #loop thru funcBlocks to see where funcNames align?
+
+#def findLoops(fullScript):
+    #for loop pattern:  for\s+\w+\s+in\s+.+:     (only retrieves the header, not the body of the loop yet)
+    # while loop header pattern: while\s+.+:
+
+
+# def findInheritance(fullScript): 
+
+
+
 def splitFunc(fullScript): #just remove spaces
     scriptList = []
     realScriptList = []
