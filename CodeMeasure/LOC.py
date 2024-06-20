@@ -61,21 +61,21 @@ def function_without_list_comp():
         squared_list.append(x**2)  # Regular loop
     return squared_list
 
-# def nested_while_with_conditionals():
-#     # Example of nested while loops with conditionals
-#     i = 1
-#     while i <= 3:
-#         j = 1
-#         while j <= 2:
-#             if i == 2 and j == 2:
-#                 print(f"Special case: i={i}, j={j}")
-#             else:
-#                 print(f"Normal case: i={i}, j={j}")
-#             j += 1
-#         i += 1
+def nested_while_with_conditionals():
+    # Example of nested while loops with conditionals
+    i = 1
+    while i <= 3:
+        j = 1
+        while j <= 2:
+            if i == 2 and j == 2:
+                print(f"Special case: i={i}, j={j}")
+            else:
+                print(f"Normal case: i={i}, j={j}")
+            j += 1
+        i += 1
 
-# # Call the function
-# nested_while_with_conditionals()
+# Call the function
+nested_while_with_conditionals()
 
 def another_function_with_list_comp():
     numbers = [1, 2, 3, 4]
