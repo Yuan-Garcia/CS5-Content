@@ -77,6 +77,15 @@ def findDictionaries(noCommentScriptStr):
 def findSlicing(noCommentScriptStr):
     return containsString("\[.*:.*\]", noCommentScriptStr)
 
+def findNestedLoops(noCommentsScriptStr):
+    with open(noCommentsScriptStr, "r") as file:
+        tree = ast.parse(file.read(), filename=noCommentsScriptStr)
+
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.For, ast.While)):
+            for child in ast.iter_child_nodes(node):
+                if isinstance(child, (ast.For, ast.While)):
+                    return True
 
 def findRecursion(fullScript):
     #split into functions, then find function name within the functions
@@ -121,7 +130,7 @@ for i in splitFunc(script_path):
 
 commentList = [z for z in commentList if z != ""]
 print("The total LOC is: " + str(len(totalScriptList)))
-print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
+#print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
   
 print("The comment level is: " + str(len(commentList)))
 print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
@@ -132,8 +141,8 @@ print("Are there if's or variables? " + str(findIfOrVar(noCommentsinputfile)))
 #print(splitFunc(script_path))
 # print(inspect.getsource(funcName))
 
-print("Has list iteration?: " , contains_list_comprehension("LOC.py"))
-
+print("Has list iteration?: " ,findLisComp("LOC.py"))
+print("Has nested loops?",findNestedLoops("LOC.py"))
 #print(find_functions_in_script("LOC.py"))
 
 
