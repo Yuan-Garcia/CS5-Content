@@ -146,7 +146,7 @@ print("Are there if's or variables? " + str(findIfOrVar(noCommentsinputfile)))
 print("Has list iteration?: " ,findListComp("LOC.py"))
 print("Has nested loops?",findNestedLoops("LOC.py"))
 #print(find_functions_in_script("LOC.py"))
-
+#hi
 
 
     
