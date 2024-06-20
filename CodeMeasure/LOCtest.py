@@ -145,9 +145,9 @@ print("Are there if's or variables? " + str(findIfOrVar(noCommentsinputfile)))
 #print(splitFunc(scriptPath))
 # print(inspect.getsource(funcName))
 
-print("Has list iteration?: " ,findListComp("LOC.py"))
-print("Has nested loops?",findNestedLoops("LOC.py"))
-print("Has recursion?",findRecursion("LOC.py"))
+print("Has list iteration?: " ,findListComp(scriptPath))
+print("Has nested loops?",findNestedLoops(scriptPath))
+print("Has recursion?",findRecursion(scriptPath))
 #print(findFunctionsInScript("LOC.py"))
 #hi
 
