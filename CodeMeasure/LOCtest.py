@@ -59,23 +59,22 @@ def findRecursion(fullScript):
 
 def splitFunc(fullScript): #just remove spaces
     scriptList = []
-    realScriptList = []
     tempFunc = ""
     funcToggle = False
     #print(fullScript)
     #fullScript = [z for z in fullScript if z != "\n"] #removing all useless empty lines!
     #print(fullScript)
-    for i in fullScript:
-        if(i.startswith("def ")):
-            funcToggle = True
-        elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
-            funcToggle = True
-        else:
-            funcToggle = False
-        if not((not funcToggle) and i == "\n"):
-            realScriptList.append(i)
+    # for i in fullScript:
+    #     if(i.startswith("def ")):
+    #         funcToggle = True
+    #     elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
+    #         funcToggle = True
+    #     else:
+    #         funcToggle = False
+    #     if not((not funcToggle) and i == "\n"):
+    #         realScriptList.append(i)
         #print(len(realScriptList))
-    for i in realScriptList:
+    for i in fullScript:
         if(i.startswith("def ")):
             funcToggle = True
         elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
@@ -88,7 +87,17 @@ def splitFunc(fullScript): #just remove spaces
             scriptList.append(tempFunc)
             tempFunc = ""
     #print(len(scriptList))
-    return scriptList
+    ansList = []
+    #print(scriptList)
+    for n, i in enumerate(scriptList):
+        print(i + "new")
+        if "def" in i:
+            ansList.append(i)
+        else:
+            print("")
+            #ansList[:-1] = i
+
+    return ansList
 
 commentList = []
 totalScriptList = []
