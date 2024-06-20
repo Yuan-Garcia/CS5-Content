@@ -1,6 +1,8 @@
 import re
 import inspect  
-import ast 
+import ast
+from Cyclomatic import *
+from NestedDepth import *
 
 def commentCheck(comment): #fix becauyse it works now
     #hashtags = "\#[^\n\r]+?(?:[\n\r])"   # is the actual solution
@@ -177,6 +179,11 @@ print("The percentage comments is: " + str((1-(len(noCommentsinputfile)/len(open
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 #print("These functions are: " + str(funcName(totalScriptList)))
 
+print("The total Cyclomatic Complexity is " + str(calculate_cyclomatic_complexity(open(scriptPath, "r").read())))
+
+call_graph = build_call_graph(scriptPath)
+ambition_score = measure_ambition(call_graph)
+print("The highest level of function nesting is " + str(ambition_score))
 
 print("Has if's or variables?" ,findIfOrVar(noCommentsinputfile))
 print("Has list comprehension?" ,findListComp(scriptPath))

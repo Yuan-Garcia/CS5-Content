@@ -40,9 +40,9 @@ def measure_ambition(call_graph):
         max_chain_length = max(max_chain_length, visit(function, set()))
     return max_chain_length
 
-# Example usage
-script_path = "LOC.py"
-call_graph = build_call_graph(script_path)
-ambition_score = measure_ambition(call_graph)
+# # Example usage
+# script_path = "LOC.py"
+# call_graph = build_call_graph(script_path)
+# ambition_score = measure_ambition(call_graph)
 
-print(f"Ambition score (max chain length): {ambition_score}")
+# print(f"Ambition score (max chain length): {ambition_score}")
