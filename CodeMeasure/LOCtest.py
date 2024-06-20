@@ -110,25 +110,7 @@ def findRecursion(scriptPath):
 
 
 def findListComp(scriptPath):
-    """Detect specific list comprehensions in the given script."""
-    with open(scriptPath, "r") as file:
-        script_code = file.read()
-
-    tree = ast.parse(script_code, filename=scriptPath)
-
-    def is_specific_list_comp(node):
-        """Check if the list comprehension matches the specified formats."""
-        if isinstance(node.elt, ast.Call) and isinstance(node.elt.func, ast.Name):
-            if isinstance(node.generators[0].target, ast.Name) and isinstance(node.generators[0].iter, ast.Name):
-                return True
-        elif isinstance(node.elt, ast.List) and len(node.elt.elts) == 2:
-            if isinstance(node.elt.elts[0], ast.Call) and isinstance(node.elt.elts[1], ast.Name):
-                if isinstance(node.generators[0].target, ast.Name) and isinstance(node.generators[0].iter, ast.Name):
-                    return True
-        return False
-
-    return any(is_specific_list_comp(node) for node in ast.walk(tree) if isinstance(node, ast.ListComp))
-
+    return "foo"
     # with open(scriptPath, "r") as file:
     #     tree = ast.parse(file.read(), filename=scriptPath)
     # for node in ast.walk(tree):
