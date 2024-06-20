@@ -93,8 +93,13 @@ def findNestedLoops(scriptPath):
 def findRecursion(scriptPath):
     #split into functions, then find function name within the functions
     #def whitespace word (anything ) colon
-    for i in splitFunc(scriptPath):
-        if i.count("name") > 1:
+    totalScriptList = []
+    inputFile = open(scriptPath, "r")
+    for x in inputFile:
+        totalScriptList.append(x)
+    names = funcName(totalScriptList)
+    for n, i in enumerate(splitFunc(scriptPath)):
+        if i.count(names[n]) > 1:
             return True
     return False
 
@@ -142,6 +147,7 @@ print("Are there if's or variables? " + str(findIfOrVar(noCommentsinputfile)))
 
 print("Has list iteration?: " ,findListComp("LOC.py"))
 print("Has nested loops?",findNestedLoops("LOC.py"))
+print("Has recursion?",findRecursion("LOC.py"))
 #print(findFunctionsInScript("LOC.py"))
 #hi
 
