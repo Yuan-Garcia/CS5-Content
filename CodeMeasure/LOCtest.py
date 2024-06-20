@@ -27,6 +27,29 @@ def removeComments(fullScript):
     fullScript = re.sub("#.*","",fullScript) #replaces everything that has a comment with an emptystring
     return fullScript
 
+def find_functions_in_script(script_path):
+    with open(script_path, "r") as file:
+        tree = ast.parse(file.read(), filename=script_path)
+
+    functions = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
+    return functions
+
+def get_function_source(script_path, func_node):
+    with open(script_path, "r") as file:
+        lines = file.readlines()
+
+    start_line = func_node.lineno - 1
+    end_line = func_node.end_lineno
+
+    return "".join(lines[start_line:end_line])
+
+def splitFunc(script_path):
+    funcList = []
+    functions = find_functions_in_script(script_path)
+    for func in functions:
+        funcList.append(get_function_source(script_path, func))
+    return funcList
+
 def funcName(fullScript):
     tempList = []
     ansList = []
@@ -58,19 +81,15 @@ def findRecursion(fullScript):
 # def findInheritance(fullScript): 
 
 
-def find_functions_in_script(script_path):
-    with open(script_path, "r") as file:
-        tree = ast.parse(file.read(), filename=script_path)
-
-    functions = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
-    return functions
 
 
 commentList = []
 totalScriptList = []
 
-inputfile = open("LOC.py", "r")
-inputfiletest2 = open("LOC.py", "r")
+script_path = "LOC.py"
+
+inputfile = open(script_path, "r")
+inputfiletest2 = open(script_path, "r")
 noCommentsinputfile = removeComments(inputfiletest2.read())
 for x in inputfile:
     totalScriptList.append(x)
@@ -85,28 +104,16 @@ print("The comment level is: " + str(len(commentList)))
 print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 print("These functions are: " + str(funcName(totalScriptList)))
-
+for i in splitFunc(script_path):
+    print(i)
+#print(splitFunc(script_path))
 # print(inspect.getsource(funcName))
 
 
-print(find_functions_in_script("LOC.py"))
+#print(find_functions_in_script("LOC.py"))
 
-def get_function_source(script_path, func_node):
-    with open(script_path, "r") as file:
-        lines = file.readlines()
 
-    start_line = func_node.lineno - 1
-    end_line = func_node.end_lineno
 
-    return "".join(lines[start_line:end_line])
-
-script_path = "LOC.py"
-functions = find_functions_in_script(script_path)
-for func in functions:
-    func_source = get_function_source(script_path, func)
-    print(f"Function {func.name} source code:")
-    print(func_source)
-    print("="*40)
     
 # for i, n in enumerate((splitFunc(totalScriptList))):
 #     print(n, i)
