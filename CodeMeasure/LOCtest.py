@@ -109,8 +109,8 @@ def findRecursion(scriptPath):
 # def findInheritance(fullScript): 
 
 
-def findListComp(scriptPath):
-    return "foo"
+def findListComp(noCommentScriptStr):
+    return containsString("\[.*for.*in.*\]", noCommentScriptStr)
     # with open(scriptPath, "r") as file:
     #     tree = ast.parse(file.read(), filename=scriptPath)
     # for node in ast.walk(tree):
