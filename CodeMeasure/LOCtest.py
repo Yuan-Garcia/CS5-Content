@@ -105,10 +105,6 @@ def findRecursion(scriptPath):
             return True
     return False
 
-
-# def findInheritance(fullScript): 
-
-
 def findListComp(noCommentScriptStr):
     return containsString("\[.*for.*in.*\]", noCommentScriptStr)
     # with open(scriptPath, "r") as file:
@@ -148,8 +144,8 @@ for x in inputfile:
     totalScriptList.append(x)
     commentList.append(commentCheck(x))
 
-for i in splitFunc(scriptPath):
-    print(i)
+# for i in splitFunc(scriptPath):
+#     print(i)
 
 commentList = [z for z in commentList if z != ""]
 print("The total LOC is: " + str(len(totalScriptList)))
@@ -171,6 +167,7 @@ print("Has if's or variables?" ,findIfOrVar(noCommentsinputfile))
 print("Has list comprehension?" ,findListComp(scriptPath))
 print("Has nested loops?",findNestedLoops(scriptPath))
 print("Has recursion?",findRecursion(scriptPath))
+print("Has List Comprehension?",findListComp(noCommentsinputfile))
 #print(findFunctionsInScript("LOC.py"))
 #hi
 
