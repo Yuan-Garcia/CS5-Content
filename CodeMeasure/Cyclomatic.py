@@ -35,10 +35,6 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.edges += 1
         self.generic_visit(node)
     
-    def visit_Not(self, node):
-       self.decision_points += 1
-       self.edges += 1
-       self.generic_visit(node)
 
 def calculate_cyclomatic_complexity(source_code):
     tree = ast.parse(source_code)
