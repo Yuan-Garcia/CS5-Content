@@ -70,7 +70,14 @@ def findIfOrVar(noCommentScriptStr):
 
 def findDictionaries(fullScript):
     dictionaries =  "\{(?:[^{}]|(?R))*\})" #gets dictionary literals
-    
+
+def findSlicing(noCommentScriptStr):
+    wordScript = noCommentScriptStr.split(" ")
+    for i in wordScript:
+        if re.search("\[.*:.*\]", i):
+            return True
+    return False
+
 
 def findRecursion(fullScript):
     #split into functions, then find function name within the functions
