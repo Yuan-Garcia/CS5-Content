@@ -12,15 +12,6 @@ def commentCheck(comment): #fix becauyse it works now
     #print(commentCheck("#will this work"))
     #print(commentCheck("we will see"))
 
-# def CyclomaticChicanery(noCommentScriptStr):
-#     wordScript = noCommentScriptStr.split(" ")
-#     addOne = "for|if|for|while|except|with|assert| in |and|or|not|implies" # add more list comprehensions
-#     CyclomaticCount = 0
-#     for i in wordScript:
-#         if re.search(addOne, i): # if it's in the checkers then decrement the cyclomatic count :)
-#             CyclomaticCount = CyclomaticCount + 1
-#     return CyclomaticCount
-
 def removeComments(fullScript):
     multiLine = "\'\'\'[^']*\'\'\'|\"\"\"[^\"]*\"\"\"" # gets all docstrings
     fullScript = re.sub(multiLine, "", fullScript) # replaces all docstrings with an emptystring
@@ -135,24 +126,26 @@ def findOop(scriptPath):
 commentList = []
 totalScriptList = []
 
-scriptPath = "LOC.py"
+scriptPath = "Brennock.py"
 
 inputfile = open(scriptPath, "r")
 inputfiletest2 = open(scriptPath, "r")
 noCommentsinputfile = removeComments(inputfiletest2.read())
+#print(noCommentsinputfile)
 for x in inputfile:
     totalScriptList.append(x)
     commentList.append(commentCheck(x))
 
-for i in splitFunc(scriptPath):
-    print(i)
+#for i in splitFunc(scriptPath):
+#    print(i)
 
 commentList = [z for z in commentList if z != ""]
 print("The total LOC is: " + str(len(totalScriptList)))
 #print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
   
 print("The comment level is: " + str(len(commentList)))
-print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
+print("The percentage comments is: " + str((len(noCommentsinputfile)/len(totalScriptList))*100))
+
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 print("These functions are: " + str(funcName(totalScriptList)))
 
