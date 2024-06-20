@@ -27,14 +27,14 @@ def removeComments(fullScript):
     fullScript = re.sub("#.*","",fullScript) #replaces everything that has a comment with an emptystring
     return fullScript
 
-def find_functions_in_script(scriptPath):
+def findFunctionsInScript(scriptPath):
     with open(scriptPath, "r") as file:
         tree = ast.parse(file.read(), filename=scriptPath)
 
     functions = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
     return functions
 
-def get_function_source(scriptPath, func_node):
+def getFunctionSource(scriptPath, func_node):
     with open(scriptPath, "r") as file:
         lines = file.readlines()
 
@@ -45,9 +45,9 @@ def get_function_source(scriptPath, func_node):
 
 def splitFunc(scriptPath):
     funcList = []
-    functions = find_functions_in_script(scriptPath)
+    functions = findFunctionsInScript(scriptPath)
     for func in functions:
-        funcList.append(get_function_source(scriptPath, func))
+        funcList.append(getFunctionSource(scriptPath, func))
     return funcList
 
 def funcName(fullScript):
@@ -145,7 +145,7 @@ print("Are there if's or variables? " + str(findIfOrVar(noCommentsinputfile)))
 
 print("Has list iteration?: " ,findListComp("LOC.py"))
 print("Has nested loops?",findNestedLoops("LOC.py"))
-#print(find_functions_in_script("LOC.py"))
+#print(findFunctionsInScript("LOC.py"))
 #hi
 
 
