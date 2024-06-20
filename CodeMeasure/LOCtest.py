@@ -110,6 +110,7 @@ print("The comment level is: " + str(len(commentList)))
 print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 print("These functions are: " + str(funcName(totalScriptList)))
+print("Are there if's or variables? " + str(findIfOrVar(noCommentsinputfile)))
 for i in splitFunc(script_path):
     print(i)
 #print(splitFunc(script_path))
