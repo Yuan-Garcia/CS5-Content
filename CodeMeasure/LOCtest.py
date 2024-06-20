@@ -1,4 +1,6 @@
-import re 
+import re
+import inspect  
+import ast 
 
 def commentCheck(comment): #fix becauyse it works now
     #hashtags = "\#[^\n\r]+?(?:[\n\r])"   # is the actual solution
@@ -96,8 +98,16 @@ def splitFunc(fullScript): #just remove spaces
         else:
             print("")
             #ansList[:-1] = i
-
     return ansList
+
+
+def find_functions_in_script(script_path):
+    with open(script_path, "r") as file:
+        tree = ast.parse(file.read(), filename=script_path)
+
+    functions = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
+    return functions
+
 
 commentList = []
 totalScriptList = []
@@ -110,6 +120,7 @@ for x in inputfile:
     commentList.append(commentCheck(x))
 print("The total LOC is: " + str(len(totalScriptList)))
 
+
 commentList = [z for z in commentList if z != ""]
 print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
   
@@ -117,8 +128,31 @@ print("The comment level is: " + str(len(commentList)))
 print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 print("These functions are: " + str(funcName(totalScriptList)))
-for i, n in enumerate((splitFunc(totalScriptList))):
-    print(n, i)
+
+# print(inspect.getsource(funcName))
+
+
+print(find_functions_in_script("LOC.py"))
+
+def get_function_source(script_path, func_node):
+    with open(script_path, "r") as file:
+        lines = file.readlines()
+
+    start_line = func_node.lineno - 1
+    end_line = func_node.end_lineno
+
+    return "".join(lines[start_line:end_line])
+
+script_path = "LOC.py"
+functions = find_functions_in_script(script_path)
+for func in functions:
+    func_source = get_function_source(script_path, func)
+    print(f"Function {func.name} source code:")
+    print(func_source)
+    print("="*40)
+    
+# for i, n in enumerate((splitFunc(totalScriptList))):
+#     print(n, i)
 #print((splitFunc(totalScriptList)))
 
 # testing on LOC.py
