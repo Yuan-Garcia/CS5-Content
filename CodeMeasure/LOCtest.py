@@ -1,7 +1,12 @@
 import re
+<<<<<<< HEAD
+import inspect  
+import ast 
+=======
 import inspect 
 import ast
 
+>>>>>>> aa55da5ecd74f7e5c7b81c22a9b8f932e1f59898
 
 def commentCheck(comment): #fix becauyse it works now
    #hashtags = "\#[^\n\r]+?(?:[\n\r])"   # is the actual solution
@@ -64,6 +69,48 @@ def findRecursion(fullScript):
 
 
 
+<<<<<<< HEAD
+def splitFunc(fullScript): #just remove spaces
+    scriptList = []
+    tempFunc = ""
+    funcToggle = False
+    #print(fullScript)
+    #fullScript = [z for z in fullScript if z != "\n"] #removing all useless empty lines!
+    #print(fullScript)
+    # for i in fullScript:
+    #     if(i.startswith("def ")):
+    #         funcToggle = True
+    #     elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
+    #         funcToggle = True
+    #     else:
+    #         funcToggle = False
+    #     if not((not funcToggle) and i == "\n"):
+    #         realScriptList.append(i)
+        #print(len(realScriptList))
+    for i in fullScript:
+        if(i.startswith("def ")):
+            funcToggle = True
+        elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
+            funcToggle = True
+        else:
+            funcToggle = False
+        if funcToggle:
+            tempFunc = tempFunc + i 
+        else:
+            scriptList.append(tempFunc)
+            tempFunc = ""
+    #print(len(scriptList))
+    ansList = []
+    #print(scriptList)
+    for n, i in enumerate(scriptList):
+        print(i + "new")
+        if "def" in i:
+            ansList.append(i)
+        else:
+            print("")
+            #ansList[:-1] = i
+    return ansList
+=======
 
 # def findInheritance(fullScript):
 
@@ -126,6 +173,16 @@ def find_functions_in_script(script_path):
 
 
 
+>>>>>>> aa55da5ecd74f7e5c7b81c22a9b8f932e1f59898
+
+
+def find_functions_in_script(script_path):
+    with open(script_path, "r") as file:
+        tree = ast.parse(file.read(), filename=script_path)
+
+    functions = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
+    return functions
+
 
 commentList = []
 totalScriptList = []
@@ -140,8 +197,11 @@ for x in inputfile:
 print("The total LOC is: " + str(len(totalScriptList)))
 
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> aa55da5ecd74f7e5c7b81c22a9b8f932e1f59898
 commentList = [z for z in commentList if z != ""]
 print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
  print("The comment level is: " + str(len(commentList)))
@@ -149,6 +209,21 @@ print("The percentage comments is: " + str((len(commentList)/len(totalScriptList
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 print("These functions are: " + str(funcName(totalScriptList)))
 
+<<<<<<< HEAD
+# print(inspect.getsource(funcName))
+
+
+print(find_functions_in_script("LOC.py"))
+
+def get_function_source(script_path, func_node):
+    with open(script_path, "r") as file:
+        lines = file.readlines()
+
+    start_line = func_node.lineno - 1
+    end_line = func_node.end_lineno
+
+    return "".join(lines[start_line:end_line])
+=======
 
 # print(inspect.getsource(funcName))
 
@@ -169,15 +244,24 @@ def get_function_source(script_path, func_node):
 
    return "".join(lines[start_line:end_line])
 
+>>>>>>> aa55da5ecd74f7e5c7b81c22a9b8f932e1f59898
 
 script_path = "LOC.py"
 functions = find_functions_in_script(script_path)
 for func in functions:
+<<<<<<< HEAD
+    func_source = get_function_source(script_path, func)
+    print(f"Function {func.name} source code:")
+    print(func_source)
+    print("="*40)
+    
+=======
    func_source = get_function_source(script_path, func)
    print(f"Function {func.name} source code:")
    print(func_source)
    print("="*40)
   
+>>>>>>> aa55da5ecd74f7e5c7b81c22a9b8f932e1f59898
 # for i, n in enumerate((splitFunc(totalScriptList))):
 #     print(n, i)
 #print((splitFunc(totalScriptList)))
