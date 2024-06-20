@@ -109,10 +109,12 @@ noCommentsinputfile = removeComments(inputfiletest2.read())
 for x in inputfile:
     totalScriptList.append(x)
     commentList.append(commentCheck(x))
-print("The total LOC is: " + str(len(totalScriptList)))
 
+for i in splitFunc(script_path):
+    print(i)
 
 commentList = [z for z in commentList if z != ""]
+print("The total LOC is: " + str(len(totalScriptList)))
 print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
   
 print("The comment level is: " + str(len(commentList)))
@@ -120,8 +122,7 @@ print("The percentage comments is: " + str((len(commentList)/len(totalScriptList
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 print("These functions are: " + str(funcName(totalScriptList)))
 print("Are there if's or variables? " + str(findIfOrVar(noCommentsinputfile)))
-for i in splitFunc(script_path):
-    print(i)
+
 #print(splitFunc(script_path))
 # print(inspect.getsource(funcName))
 
