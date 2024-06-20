@@ -115,6 +115,21 @@ def findListComp(scriptPath):
             return True
     return False
 
+def findOop(scriptPath):
+    with open(scriptPath, "r") as file:
+        tree = ast.parse(file.read(), filename=scriptPath)
+
+    hasClass = False
+    hasMethod = False
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ClassDef):
+            hasClass = True
+            for child in node.body:
+                if isinstance(child, ast.FunctionDef):
+                    hasMethod = True
+
+    return hasClass and hasMethod
 
 
 commentList = []
