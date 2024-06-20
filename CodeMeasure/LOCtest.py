@@ -171,14 +171,9 @@ commentList = [z for z in commentList if z != ""]
 print("The total LOC is: " + str(len(totalScriptList)))
 #print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
   
-<<<<<<< Updated upstream
-print("The comment level is: " + str(len(commentList)))
-print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
-=======
 #print("The comment level is: " + str(len(commentList)))
 print("The percentage comments is: " + str((1-(len(noCommentsinputfile)/len(open(scriptPath, "r").read())))*100))
 
->>>>>>> Stashed changes
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 #print("These functions are: " + str(funcName(totalScriptList)))
 
