@@ -61,6 +61,8 @@ def splitFunc(fullScript): #just remove spaces
     scriptList = []
     tempFunc = ""
     funcToggle = False
+    startsWithWord = "^[\w]"
+    defToggle = False
     #print(fullScript)
     #fullScript = [z for z in fullScript if z != "\n"] #removing all useless empty lines!
     #print(fullScript)
@@ -74,30 +76,34 @@ def splitFunc(fullScript): #just remove spaces
     #     if not((not funcToggle) and i == "\n"):
     #         realScriptList.append(i)
         #print(len(realScriptList))
-    for i in fullScript:
-        if(i.startswith("def ")):
-            funcToggle = True
-        elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
-            funcToggle = True
-        else:
-            funcToggle = False
-        if funcToggle:
-            tempFunc = tempFunc + i 
-        else:
-            scriptList.append(tempFunc)
-            tempFunc = ""
+    # for i in fullScript:
+    #     if(i.startswith("def ")):
+    #         funcToggle = True
+    #         defToggle = True
+    #     elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
+    #         funcToggle = True
+    #     elif(re.search(startsWithWord, i) and defToggle): #regex for a word in here
+    #         funcToggle = False
+    #         defToggle = False
+    #     else:
+    #         funcToggle = True
+    #     if funcToggle:
+    #         tempFunc = tempFunc + i 
+    #     else:
+    #         scriptList.append(tempFunc)
+    #         tempFunc = ""
     #print(len(scriptList))
-    ansList = []
+    # ansList = []
     #print(scriptList)
-    for n, i in enumerate(scriptList):
-        print(i + "new")
-        if "def" in i:
-            ansList.append(i)
-        else:
-            print("")
-            #ansList[:-1] = i
+    # for n, i in enumerate(scriptList):
+    #     print(i + "new")
+    #     if "def" in i:
+    #         ansList.append(i)
+    #     else:
+    #         print("")
+    #         #ansList[:-1] = i
 
-    return ansList
+    return scriptList
 
 commentList = []
 totalScriptList = []
