@@ -58,49 +58,6 @@ def findRecursion(fullScript):
 # def findInheritance(fullScript): 
 
 
-
-def splitFunc(fullScript): #just remove spaces
-    scriptList = []
-    tempFunc = ""
-    funcToggle = False
-    #print(fullScript)
-    #fullScript = [z for z in fullScript if z != "\n"] #removing all useless empty lines!
-    #print(fullScript)
-    # for i in fullScript:
-    #     if(i.startswith("def ")):
-    #         funcToggle = True
-    #     elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
-    #         funcToggle = True
-    #     else:
-    #         funcToggle = False
-    #     if not((not funcToggle) and i == "\n"):
-    #         realScriptList.append(i)
-        #print(len(realScriptList))
-    for i in fullScript:
-        if(i.startswith("def ")):
-            funcToggle = True
-        elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))): 
-            funcToggle = True
-        else:
-            funcToggle = False
-        if funcToggle:
-            tempFunc = tempFunc + i 
-        else:
-            scriptList.append(tempFunc)
-            tempFunc = ""
-    #print(len(scriptList))
-    ansList = []
-    #print(scriptList)
-    for n, i in enumerate(scriptList):
-        print(i + "new")
-        if "def" in i:
-            ansList.append(i)
-        else:
-            print("")
-            #ansList[:-1] = i
-    return ansList
-
-
 def find_functions_in_script(script_path):
     with open(script_path, "r") as file:
         tree = ast.parse(file.read(), filename=script_path)
