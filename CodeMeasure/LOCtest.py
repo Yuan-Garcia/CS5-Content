@@ -90,7 +90,18 @@ def findNestedLoops(scriptPath):
             for child in ast.iter_child_nodes(node):
                 if isinstance(child, (ast.For, ast.While)):
                     return True
+    return False
 
+
+def findLoops(scriptPath):
+    with open(scriptPath, "r") as file:
+        tree = ast.parse(file.read(), filename=scriptPath)
+
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.For, ast.While)):
+            return True
+    return False
+        
 def findRecursion(scriptPath):
     #split into functions, then find function name within the functions
     #def whitespace word (anything ) colon
@@ -167,7 +178,7 @@ print("Has Recursion?",findRecursion(scriptPath))
 print("Has List Comprehension?" ,findListComp(noCommentsinputfile))
 print("Has Slicing?", findSlicing(noCommentsinputfile))
 print("Has Boolean Algebra?", findBoolAlg(noCommentsinputfile))
-#print("Has Loops?")
+print("Has Loops?", findLoops(scriptPath))
 print("Has Nested loops?",findNestedLoops(scriptPath))
 print("Has Dictionaries?", findDictionaries(noCommentsinputfile))
 print("Has OOP?", findOop(scriptPath))
