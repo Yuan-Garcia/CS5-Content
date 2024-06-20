@@ -87,6 +87,15 @@ def findRecursion(fullScript):
 # def findInheritance(fullScript): 
 
 
+def contains_list_comprehension(script_path):
+    with open(script_path, "r") as file:
+        tree = ast.parse(file.read(), filename=script_path)
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ListComp):
+            return True
+    return False
+
 
 
 commentList = []
@@ -114,7 +123,7 @@ for i in splitFunc(script_path):
     print(i)
 #print(splitFunc(script_path))
 # print(inspect.getsource(funcName))
-
+print(contains_list_comprehension("LOC.py"))
 
 #print(find_functions_in_script("LOC.py"))
 
