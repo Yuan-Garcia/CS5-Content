@@ -72,46 +72,46 @@ def findRecursion(fullScript):
 
 
 
-# def splitFunc(fullScript): #just remove spaces
-#    scriptList = []
-#    tempFunc = ""
-#    funcToggle = False
-#    #print(fullScript)
-#    #fullScript = [z for z in fullScript if z != "\n"] #removing all useless empty lines!
-#    #print(fullScript)
-#    # for i in fullScript:
-#    #     if(i.startswith("def ")):
-#    #         funcToggle = True
-#    #     elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))):
-#    #         funcToggle = True
-#    #     else:
-#    #         funcToggle = False
-#    #     if not((not funcToggle) and i == "\n"):
-#    #         realScriptList.append(i)
-#        #print(len(realScriptList))
-#    for i in fullScript:
-#        if(i.startswith("def ")):
-#            funcToggle = True
-#        elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))):
-#            funcToggle = True
-#        else:
-#            funcToggle = False
-#        if funcToggle:
-#            tempFunc = tempFunc + i
-#        else:
-#            scriptList.append(tempFunc)
-#            tempFunc = ""
-#    #print(len(scriptList))
-#    ansList = []
-#    #print(scriptList)
-#    for n, i in enumerate(scriptList):
-#        print(i + "new")
-#        if "def" in i:
-#            ansList.append(i)
-#        else:
-#            print("")
-#            #ansList[:-1] = i
-#    return ansList
+def splitFunc(fullScript): #just remove spaces
+   scriptList = []
+   tempFunc = ""
+   funcToggle = False
+   #print(fullScript)
+   #fullScript = [z for z in fullScript if z != "\n"] #removing all useless empty lines!
+   #print(fullScript)
+   # for i in fullScript:
+   #     if(i.startswith("def ")):
+   #         funcToggle = True
+   #     elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))):
+   #         funcToggle = True
+   #     else:
+   #         funcToggle = False
+   #     if not((not funcToggle) and i == "\n"):
+   #         realScriptList.append(i)
+       #print(len(realScriptList))
+   for i in fullScript:
+       if(i.startswith("def ")):
+           funcToggle = True
+       elif((i.startswith(" ") or i.startswith("\t") or i.startswith("#"))):
+           funcToggle = True
+       else:
+           funcToggle = False
+       if funcToggle:
+           tempFunc = tempFunc + i
+       else:
+           scriptList.append(tempFunc)
+           tempFunc = ""
+   #print(len(scriptList))
+   ansList = []
+   #print(scriptList)
+   for n, i in enumerate(scriptList):
+       print(i + "new")
+       if "def" in i:
+           ansList.append(i)
+       else:
+           print("")
+           #ansList[:-1] = i
+   return ansList
 
 
 
@@ -144,7 +144,7 @@ print("The total LOC is: " + str(len(totalScriptList)))
 
 commentList = [z for z in commentList if z != ""]
 print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
-print("The comment level is: " + str(len(commentList)))
+ print("The comment level is: " + str(len(commentList)))
 print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 print("These functions are: " + str(funcName(totalScriptList)))
