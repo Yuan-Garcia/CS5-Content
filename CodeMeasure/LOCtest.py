@@ -1,5 +1,4 @@
-import re
-import inspect  
+import re  
 import ast
 from Cyclomatic import *
 from NestedDepth import *
