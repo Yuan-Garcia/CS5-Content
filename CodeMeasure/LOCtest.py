@@ -141,6 +141,12 @@ def findOop(scriptPath):
 
     return hasClass and hasMethod
 
+def sumTests(boolList):
+    total = 0
+    for i in boolList:
+        if i:
+            total = total+1
+    return total
 
 commentList = []
 totalScriptList = []
@@ -173,6 +179,17 @@ call_graph = build_call_graph(scriptPath)
 ambition_score = measure_ambition(call_graph)
 print("The highest level of function nesting is " + str(ambition_score))
 
+weeksTesting = []
+weeksTesting.append(findIfOrVar(noCommentsinputfile))
+weeksTesting.append(findRecursion(scriptPath))
+weeksTesting.append(findListComp(noCommentsinputfile))
+weeksTesting.append(findSlicing(noCommentsinputfile))
+weeksTesting.append(findBoolAlg(noCommentsinputfile))
+weeksTesting.append(findLoops(scriptPath))
+weeksTesting.append(findNestedLoops(scriptPath))
+weeksTesting.append(findDictionaries(noCommentsinputfile))
+weeksTesting.append(findOop(scriptPath))
+
 print("Has if's or variables?" ,findIfOrVar(noCommentsinputfile))
 print("Has Recursion?",findRecursion(scriptPath))
 print("Has List Comprehension?" ,findListComp(noCommentsinputfile))
@@ -182,6 +199,7 @@ print("Has Loops?", findLoops(scriptPath))
 print("Has Nested loops?",findNestedLoops(scriptPath))
 print("Has Dictionaries?", findDictionaries(noCommentsinputfile))
 print("Has OOP?", findOop(scriptPath))
+print("This project encompasses", sumTests(weeksTesting), "out of", len(weeksTesting), "weeks tested in this course")
 #print(findFunctionsInScript("LOC.py"))
 #hi
 
