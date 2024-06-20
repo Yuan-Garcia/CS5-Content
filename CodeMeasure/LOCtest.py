@@ -27,15 +27,15 @@ def removeComments(fullScript):
     fullScript = re.sub("#.*","",fullScript) #replaces everything that has a comment with an emptystring
     return fullScript
 
-def find_functions_in_script(script_path):
-    with open(script_path, "r") as file:
-        tree = ast.parse(file.read(), filename=script_path)
+def find_functions_in_script(scriptPath):
+    with open(scriptPath, "r") as file:
+        tree = ast.parse(file.read(), filename=scriptPath)
 
     functions = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
     return functions
 
-def get_function_source(script_path, func_node):
-    with open(script_path, "r") as file:
+def get_function_source(scriptPath, func_node):
+    with open(scriptPath, "r") as file:
         lines = file.readlines()
 
     start_line = func_node.lineno - 1
@@ -43,11 +43,11 @@ def get_function_source(script_path, func_node):
 
     return "".join(lines[start_line:end_line])
 
-def splitFunc(script_path):
+def splitFunc(scriptPath):
     funcList = []
-    functions = find_functions_in_script(script_path)
+    functions = find_functions_in_script(scriptPath)
     for func in functions:
-        funcList.append(get_function_source(script_path, func))
+        funcList.append(get_function_source(scriptPath, func))
     return funcList
 
 def funcName(fullScript):
@@ -77,9 +77,9 @@ def findDictionaries(noCommentScriptStr):
 def findSlicing(noCommentScriptStr):
     return containsString("\[.*:.*\]", noCommentScriptStr)
 
-def findNestedLoops(noCommentsScriptStr):
-    with open(noCommentsScriptStr, "r") as file:
-        tree = ast.parse(file.read(), filename=noCommentsScriptStr)
+def findNestedLoops(scriptPath):
+    with open(scriptPath, "r") as file:
+        tree = ast.parse(file.read(), filename=scriptPath)
 
     for node in ast.walk(tree):
         if isinstance(node, (ast.For, ast.While)):
@@ -102,9 +102,9 @@ def findRecursion(fullScript):
 # def findInheritance(fullScript): 
 
 
-def findLisComp(script_path):
-    with open(script_path, "r") as file:
-        tree = ast.parse(file.read(), filename=script_path)
+def findLisComp(scriptPath):
+    with open(scriptPath, "r") as file:
+        tree = ast.parse(file.read(), filename=scriptPath)
 
     for node in ast.walk(tree):
         if isinstance(node, ast.ListComp):
@@ -116,16 +116,16 @@ def findLisComp(script_path):
 commentList = []
 totalScriptList = []
 
-script_path = "LOC.py"
+scriptPath = "LOC.py"
 
-inputfile = open(script_path, "r")
-inputfiletest2 = open(script_path, "r")
+inputfile = open(scriptPath, "r")
+inputfiletest2 = open(scriptPath, "r")
 noCommentsinputfile = removeComments(inputfiletest2.read())
 for x in inputfile:
     totalScriptList.append(x)
     commentList.append(commentCheck(x))
 
-for i in splitFunc(script_path):
+for i in splitFunc(scriptPath):
     print(i)
 
 commentList = [z for z in commentList if z != ""]
@@ -138,7 +138,7 @@ print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 print("These functions are: " + str(funcName(totalScriptList)))
 print("Are there if's or variables? " + str(findIfOrVar(noCommentsinputfile)))
 
-#print(splitFunc(script_path))
+#print(splitFunc(scriptPath))
 # print(inspect.getsource(funcName))
 
 print("Has list iteration?: " ,findLisComp("LOC.py"))
