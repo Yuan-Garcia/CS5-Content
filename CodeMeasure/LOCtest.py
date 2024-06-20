@@ -124,7 +124,8 @@ for i in splitFunc(script_path):
     print(i)
 #print(splitFunc(script_path))
 # print(inspect.getsource(funcName))
-print(contains_list_comprehension("LOC.py"))
+
+print("Has list iteration?: " , contains_list_comprehension("LOC.py"))
 
 #print(find_functions_in_script("LOC.py"))
 

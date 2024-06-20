@@ -49,6 +49,22 @@ def fibonacci(n):
     # Step 4: Sum the results of the recursive calls
     return sum_recursive_results(result1, result2)
 
+# def function_with_list_comp():
+#     my_list = [1, 2, 3]
+#     squared_list = [x**2 for x in my_list]  # List comprehension
+#     return squared_list
+
+def function_without_list_comp():
+    my_list = [1, 2, 3]
+    squared_list = []
+    for x in my_list:
+        squared_list.append(x**2)  # Regular loop
+    return squared_list
+
+def another_function_with_list_comp():
+    numbers = [1, 2, 3, 4]
+    even_numbers = [x for x in numbers if x % 2 == 0]  # List comprehension with condition
+    return even_numbers
 # Example usage:
 try:
     number = 6
@@ -56,3 +72,5 @@ try:
     print(f"The Fibonacci number for {number} is {result}.")
 except ValueError as e:
     print(e)
+
+
