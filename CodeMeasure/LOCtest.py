@@ -105,16 +105,9 @@ def findRecursion(noCommentScripStr):
 # def findInheritance(fullScript): 
 
 
-<<<<<<< HEAD
-def findLisComp(scriptPath):
+def findListComp(scriptPath):
     with open(scriptPath, "r") as file:
         tree = ast.parse(file.read(), filename=scriptPath)
-=======
-def findListComp(script_path):
-    with open(script_path, "r") as file:
-        tree = ast.parse(file.read(), filename=script_path)
->>>>>>> 4b38d1a69961c139e85e0d6eafcf895bd030f8c9
-
     for node in ast.walk(tree):
         if isinstance(node, ast.ListComp):
             return True
@@ -150,15 +143,9 @@ print("Are there if's or variables? " + str(findIfOrVar(noCommentsinputfile)))
 #print(splitFunc(scriptPath))
 # print(inspect.getsource(funcName))
 
-<<<<<<< Updated upstream
-print("Has list iteration?: " ,findLisComp("LOC.py"))
+print("Has list iteration?: " ,findListComp("LOC.py"))
 print("Has nested loops?",findNestedLoops("LOC.py"))
 #print(find_functions_in_script("LOC.py"))
-=======
-print("Has list iteration?: " , findListComp("LOC.py"))
-
-#print(splitFunc("LOC.py"))
->>>>>>> Stashed changes
 
 
 
