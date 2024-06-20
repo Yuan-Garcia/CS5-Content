@@ -41,7 +41,7 @@ def measure_ambition(call_graph):
     return max_chain_length
 
 # Example usage
-script_path = "example_script.py"
+script_path = "LOC.py"
 call_graph = build_call_graph(script_path)
 ambition_score = measure_ambition(call_graph)
 
