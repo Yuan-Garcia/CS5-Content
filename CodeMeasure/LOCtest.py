@@ -90,16 +90,13 @@ def findNestedLoops(scriptPath):
                 if isinstance(child, (ast.For, ast.While)):
                     return True
 
-def findRecursion(noCommentScripStr):
+def findRecursion(scriptPath):
     #split into functions, then find function name within the functions
     #def whitespace word (anything ) colon
-    funcNames = "def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\):" # maps everything from after def to before colon
-    funcBlocks = " " # takes the body of the function
-    #loop thru funcBlocks to see where funcNames align?
-
-#def findLoops(fullScript):
-    #for loop pattern:  for\s+\w+\s+in\s+.+:     (only retrieves the header, not the body of the loop yet)
-    # while loop header pattern: while\s+.+:
+    for i in splitFunc(scriptPath):
+        if i.count("name") > 1:
+            return True
+    return False
 
 
 # def findInheritance(fullScript): 
