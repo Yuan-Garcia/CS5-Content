@@ -47,4 +47,4 @@ def calculate_cyclomatic_complexity(source_code):
     return complexity
 
 #print(open("LOC.py", "r").read())
-print(calculate_cyclomatic_complexity(open("LOC.py", "r").read()))
+#print(calculate_cyclomatic_complexity(open("LOC.py", "r").read()))
