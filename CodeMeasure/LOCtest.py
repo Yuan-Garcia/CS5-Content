@@ -61,22 +61,21 @@ def funcName(fullScript):
         ansList.append((i.split("(")[0])[4:]) #parses out the variable and the "def ", giving only the variable name
     return ansList
 
-def findIfOrVar(noCommentScriptStr):
+def containsString(str, noCommentScriptStr):
     wordScript = noCommentScriptStr.split(" ")
     for i in wordScript:
-        if re.search("if|=", i):
+        if re.search(str, i):
             return True
     return False
 
-def findDictionaries(fullScript):
-    dictionaries =  "\{(?:[^{}]|(?R))*\})" #gets dictionary literals
+def findIfOrVar(noCommentScriptStr):
+    return containsString("if|=", noCommentScriptStr)
+    
+def findDictionaries(noCommentScriptStr):
+    return containsString( "\{(?:[^{}]|(?R))*\})", noCommentScriptStr)
 
 def findSlicing(noCommentScriptStr):
-    wordScript = noCommentScriptStr.split(" ")
-    for i in wordScript:
-        if re.search("\[.*:.*\]", i):
-            return True
-    return False
+    return containsString("\[.*:.*\]", noCommentScriptStr)
 
 
 def findRecursion(fullScript):
