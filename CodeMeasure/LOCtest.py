@@ -70,7 +70,10 @@ def containsString(str, noCommentScriptStr):
 
 def findIfOrVar(noCommentScriptStr):
     return containsString("if|=", noCommentScriptStr)
-    
+
+def findBoolAlg(noCommentScriptStr):
+    return containsString("and|or|not|", noCommentScriptStr)
+
 def findDictionaries(noCommentScriptStr):
     return containsString( "\{(?:[^{}]|(?R))*\})", noCommentScriptStr)
 
@@ -87,7 +90,7 @@ def findNestedLoops(noCommentsScriptStr):
                 if isinstance(child, (ast.For, ast.While)):
                     return True
 
-def findRecursion(fullScript):
+def findRecursion(noCommentScripStr):
     #split into functions, then find function name within the functions
     #def whitespace word (anything ) colon
     funcNames = "def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\((.*?)\):" # maps everything from after def to before colon
@@ -102,7 +105,7 @@ def findRecursion(fullScript):
 # def findInheritance(fullScript): 
 
 
-def findLisComp(script_path):
+def findListComp(script_path):
     with open(script_path, "r") as file:
         tree = ast.parse(file.read(), filename=script_path)
 
@@ -141,9 +144,15 @@ print("Are there if's or variables? " + str(findIfOrVar(noCommentsinputfile)))
 #print(splitFunc(script_path))
 # print(inspect.getsource(funcName))
 
+<<<<<<< Updated upstream
 print("Has list iteration?: " ,findLisComp("LOC.py"))
 print("Has nested loops?",findNestedLoops("LOC.py"))
 #print(find_functions_in_script("LOC.py"))
+=======
+print("Has list iteration?: " , findListComp("LOC.py"))
+
+#print(splitFunc("LOC.py"))
+>>>>>>> Stashed changes
 
 
 
