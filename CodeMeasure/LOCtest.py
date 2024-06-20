@@ -12,14 +12,14 @@ def commentCheck(comment): #fix becauyse it works now
     #print(commentCheck("#will this work"))
     #print(commentCheck("we will see"))
 
-def CyclomaticChicanery(noCommentScriptStr):
-    wordScript = noCommentScriptStr.split(" ")
-    addOne = "for|if|for|while|except|with|assert| in |and|or|not|implies" # add more list comprehensions
-    CyclomaticCount = 0
-    for i in wordScript:
-        if re.search(addOne, i): # if it's in the checkers then decrement the cyclomatic count :)
-            CyclomaticCount = CyclomaticCount + 1
-    return CyclomaticCount
+# def CyclomaticChicanery(noCommentScriptStr):
+#     wordScript = noCommentScriptStr.split(" ")
+#     addOne = "for|if|for|while|except|with|assert| in |and|or|not|implies" # add more list comprehensions
+#     CyclomaticCount = 0
+#     for i in wordScript:
+#         if re.search(addOne, i): # if it's in the checkers then decrement the cyclomatic count :)
+#             CyclomaticCount = CyclomaticCount + 1
+#     return CyclomaticCount
 
 def removeComments(fullScript):
     multiLine = "\'\'\'[^']*\'\'\'|\"\"\"[^\"]*\"\"\"" # gets all docstrings
@@ -87,7 +87,7 @@ def findRecursion(fullScript):
 # def findInheritance(fullScript): 
 
 
-def contains_list_comprehension(script_path):
+def findLisComp(script_path):
     with open(script_path, "r") as file:
         tree = ast.parse(file.read(), filename=script_path)
 
