@@ -12,6 +12,15 @@ def commentCheck(comment): #fix becauyse it works now
     #print(commentCheck("#will this work"))
     #print(commentCheck("we will see"))
 
+# def CyclomaticChicanery(noCommentScriptStr):
+#     wordScript = noCommentScriptStr.split(" ")
+#     addOne = "for|if|for|while|except|with|assert| in |and|or|not|implies" # add more list comprehensions
+#     CyclomaticCount = 0
+#     for i in wordScript:
+#         if re.search(addOne, i): # if it's in the checkers then decrement the cyclomatic count :)
+#             CyclomaticCount = CyclomaticCount + 1
+#     return CyclomaticCount
+
 def removeComments(fullScript):
     multiLine = "\'\'\'[^']*\'\'\'|\"\"\"[^\"]*\"\"\"" # gets all docstrings
     fullScript = re.sub(multiLine, "", fullScript) # replaces all docstrings with an emptystring
@@ -99,12 +108,32 @@ def findRecursion(scriptPath):
 
 
 def findListComp(scriptPath):
+    """Detect specific list comprehensions in the given script."""
     with open(scriptPath, "r") as file:
-        tree = ast.parse(file.read(), filename=scriptPath)
-    for node in ast.walk(tree):
-        if isinstance(node, ast.ListComp):
-            return True
-    return False
+        script_code = file.read()
+
+    tree = ast.parse(script_code, filename=scriptPath)
+
+    def is_specific_list_comp(node):
+        """Check if the list comprehension matches the specified formats."""
+        if isinstance(node.elt, ast.Call) and isinstance(node.elt.func, ast.Name):
+            if isinstance(node.generators[0].target, ast.Name) and isinstance(node.generators[0].iter, ast.Name):
+                return True
+        elif isinstance(node.elt, ast.List) and len(node.elt.elts) == 2:
+            if isinstance(node.elt.elts[0], ast.Call) and isinstance(node.elt.elts[1], ast.Name):
+                if isinstance(node.generators[0].target, ast.Name) and isinstance(node.generators[0].iter, ast.Name):
+                    return True
+        return False
+
+    return any(is_specific_list_comp(node) for node in ast.walk(tree) if isinstance(node, ast.ListComp))
+
+    # with open(scriptPath, "r") as file:
+    #     tree = ast.parse(file.read(), filename=scriptPath)
+    # for node in ast.walk(tree):
+    #     if isinstance(node, ast.ListComp):
+    #         return True
+    # return False
+    
 
 def findOop(scriptPath):
     with open(scriptPath, "r") as file:
@@ -131,27 +160,25 @@ scriptPath = "Brennock.py"
 inputfile = open(scriptPath, "r")
 inputfiletest2 = open(scriptPath, "r")
 noCommentsinputfile = removeComments(inputfiletest2.read())
-#print(noCommentsinputfile)
 for x in inputfile:
     totalScriptList.append(x)
     commentList.append(commentCheck(x))
 
-#for i in splitFunc(scriptPath):
-#    print(i)
+for i in splitFunc(scriptPath):
+    print(i)
 
 commentList = [z for z in commentList if z != ""]
 print("The total LOC is: " + str(len(totalScriptList)))
 #print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
   
 print("The comment level is: " + str(len(commentList)))
-print("The percentage comments is: " + str((len(noCommentsinputfile)/len(totalScriptList))*100))
-
+print("The percentage comments is: " + str((len(commentList)/len(totalScriptList))*100))
 print("There are " + str(len(funcName(totalScriptList))) + " functions present")
 print("These functions are: " + str(funcName(totalScriptList)))
 
 
 print("Has if's or variables?" ,findIfOrVar(noCommentsinputfile))
-print("Has list iteration?" ,findListComp(scriptPath))
+print("Has list comprehension?" ,findListComp(scriptPath))
 print("Has nested loops?",findNestedLoops(scriptPath))
 print("Has recursion?",findRecursion(scriptPath))
 #print(findFunctionsInScript("LOC.py"))
