@@ -76,7 +76,7 @@ def findBoolAlg(noCommentScriptStr):
     return containsString("and|or|not|", noCommentScriptStr)
 
 def findDictionaries(noCommentScriptStr):
-    return containsString( "\{(?:[^{}]|(?R))*\})", noCommentScriptStr)
+    return containsString("\{(?:[^{}]|)*\}", noCommentScriptStr)
 
 def findSlicing(noCommentScriptStr):
     return containsString("\[.*:.*\]", noCommentScriptStr)
@@ -163,9 +163,13 @@ ambition_score = measure_ambition(call_graph)
 print("The highest level of function nesting is " + str(ambition_score))
 
 print("Has if's or variables?" ,findIfOrVar(noCommentsinputfile))
-print("Has list comprehension?" ,findListComp(noCommentsinputfile))
-print("Has nested loops?",findNestedLoops(scriptPath))
-print("Has recursion?",findRecursion(scriptPath))
+print("Has Recursion?",findRecursion(scriptPath))
+print("Has List Comprehension?" ,findListComp(noCommentsinputfile))
+print("Has Slicing?", findSlicing(noCommentsinputfile))
+print("Has Boolean Algebra?", findBoolAlg(noCommentsinputfile))
+#print("Has Loops?")
+print("Has Nested loops?",findNestedLoops(scriptPath))
+print("Has Dictionaries?", findDictionaries(noCommentsinputfile))
 print("Has OOP?", findOop(scriptPath))
 #print(findFunctionsInScript("LOC.py"))
 #hi
