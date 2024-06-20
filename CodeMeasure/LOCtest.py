@@ -61,6 +61,12 @@ def funcName(fullScript):
         ansList.append((i.split("(")[0])[4:]) #parses out the variable and the "def ", giving only the variable name
     return ansList
 
+def findIfOrVar(noCommentScriptStr):
+    wordScript = noCommentScriptStr.split(" ")
+    for i in wordScript:
+        if re.search("if|=", i):
+            return True
+    return False
 
 def findDictionaries(fullScript):
     dictionaries =  "\{(?:[^{}]|(?R))*\})" #gets dictionary literals
