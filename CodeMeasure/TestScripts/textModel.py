@@ -1,306 +1,389 @@
+#
 # textmodel.py
 #
 # TextModel project!
 #
-# Name(s):Prakod Ngamlamai
+# Name(s): Florence Lin and Annette Chang
 #
-import math
-from porter import create_stem
 
-class TextModel(object):
+import string 
+from porter import create_stem
+import math
+
+class TextModel:
     """A class supporting complex models of text."""
 
     def __init__(self):
         """Create an empty TextModel."""
+        # 
+        # The text in the model, all in a single string--the original
+        # and "cleaned" versions.
+        #
+        self.text = ''            # No text present yet
+        self.cleanedtext = ''     # Nor any cleaned text yet
+                                  # ..(cleaned == only letters, all lowercase)
+
         #
         # Create dictionaries for each characteristic
         #
         self.words = {}           # For counting words
         self.wordlengths = {}     # For counting word lengths
         self.stems = {}           # For counting stems
-        self.sentencelengths = {} # For counting sentence lengths
-        self.clauses = {}         # For counting number of clauses
-        self.myparameter = {}     # For counting ___________
+        self.sentencelengths = {} # For counting sentence length
+        self.repeatedPhrase2 = {}     # For counting phrases length 2
+        self.repeatedPhrase3 = {}     # For counting phrases length 3
+        self.repeatedPhrase4 = {}     # For counting phrases length 4
+        self.repeatedPhrase5 = {}     # For counting phrases length 5
 
     def __repr__(self):
         """Display the contents of a TextModel."""
-        s = 'Words:\n' + str(self.words) + '\n\n'
-        s += 'Word lengths:\n' + str(self.wordlengths) + '\n\n'
-        s += 'Stems:\n' + str(self.stems) + '\n\n'
-        s += 'Sentence lengths:\n' + str(self.sentencelengths) + '\n\n'
-        s += 'Clause lengths:\n' + str(self.clauses)
+        s = f'Words:\n{str(self.words)}\n\n'
+        s += f'Word lengths:\n{str(self.wordlengths)}\n\n'
+        s += f'Stems:\n{str(self.stems)}\n\n'
+        s += f'Sentence lengths:\n{str(self.sentencelengths)}\n\n'
+        s += f'Phrases of length 2:\n{str(self.repeatedPhrase2)}\n\n'
+        s += f'Phrases of length 3:\n{str(self.repeatedPhrase3)}\n\n'
+        s += f'Phrases of length 4:\n{str(self.repeatedPhrase4)}\n\n'
+        s += '+'*55 + '\n'
+        s += f'Text[:42]    {self.text[:len(self.text)]}\n'
+        s += f'Cleaned[:42] {self.cleanedtext[:len(self.cleanedtext)]}\n'
+        s += '+'*55 + '\n\n'
         return s
+
+    # We provide two text-adding methods (functions) here:
+    def addRawText(self, text):
+        """addRawText accepts self (the object itself)
+                      and text, a string of raw text to add.
+           Nothing is returned from this method, but
+           the text _is_ added.
+        """
+        self.text += text 
+        self.cleanedtext += self.cleanString(self.text) 
+
+    # The second one adds text from a file:
+    def addFileText(self, filename):
+        """addFileText accepts a filename.
+
+           Nothing is returned from this method, but
+           the file is opened and its text _is_ added.
+
+           If the file is not present, it will crash!
+        """
+        f = open(filename, 'r', encoding='latin1')
+                               # The above may need utf-8 or utf-16, depending
+        text = f.read()        # Read all of the contents into text 
+        f.close()              # Close the file
+        self.addRawText(text)  # Uses the previous method!
 
     # Include other functions here.
-    def readTextFromFile(self, filename):
-        """
-            This method set the text from filename into a single large string labeled a self.text
-        """
-        f = open(filename)
-        self.text = f.read()
-        self.text = self.text.replace('\n', ' ').replace('\r', '').replace('—', ', ')
-        f.close
+    # In particular, you'll need functions that add to the model.
 
-    
     def makeSentenceLengths(self):
+        """Creates the dictionary of sentence lengths
+               should use self.text, because it needs the punctuation!
         """
-            this method create self.sentencelengths dictionary
+
+        LoW = self.text.split()
+        count = 0
+        for i in LoW:
+            count += 1
+            if i[-1] in '.?!':
+              if count in self.sentencelengths:
+                self.sentencelengths[count] += 1
+              else: 
+                self.sentencelengths[count] = 1 
+              count = 0
+
+
+
+    def cleanString(self, s):
+        """Returns the string s, but
+           with only ASCII characters, only lowercase, and no punctuation.
+           See the description and hints in the problem!
         """
-        LengthS = 0
-        S = self.text
-        LoW = S.split()
+        s = s.encode("ascii", "ignore")   # Ignores non-ASCII characters
+        s = s.decode()       
 
-        for nw in LoW:
-            LengthS += 1
-            if nw[-1] in '.?!':
-                if LengthS not in self.sentencelengths:
-                    self.sentencelengths[LengthS] = 1
-                    LengthS = 0
-                else:
-                    self.sentencelengths[LengthS] += 1
-                    LengthS = 0
+        result = s.lower()  # converts to lowercase 
 
-    def cleanString (self, s):
-        """
-            This method accepts a string s and returns another string with
-            no punctuation or upper-case letters.
-        """
-        import string
-        s = s.lower()
+        for p in string.punctuation: # gets rid of punctuation
+          result = result.replace(p, "")
 
-        for n in string.punctuation:
-            s = s.replace(n, '')
-
-        return s
+        return result
 
 
-    # def sneakyRecur(self, x):
-    #     if x==0:
-    #         return x
-    #     else:
-    #         return self.sneakyRecur(x-1)
-    
     def makeWordLengths(self):
-        """
-            This method analyzes the different word lengths in self.text
-            and creates self.wordlengths dictionary
-        """
-        S = self.text
-        S = self.cleanString(S)
-        LoW = S.split()
-
-        for nw in LoW:
-            if len(nw) not in self.wordlengths:
-                self.wordlengths[len(nw)] = 1
-            else:
-                self.wordlengths[len(nw)] += 1
-
-
+      """creates the dictionary of word-length features using
+          self.cleanedtext
+      """
+      
+      LoW = self.cleanedtext.split()
+      count = 0
+      for i in LoW:
+        for x in range(len(i)):
+          count += 1
+        if count in self.wordlengths:
+          self.wordlengths[count] += 1
+        else:
+          self.wordlengths[count] = 1
+        count = 0
+    
     def makeWords(self):
-        """
-            This method creates self.words dictionary
-        """
-        S = self.text
-        S = self.cleanString(S)
-        LoW = S.split()
-
-        for nw in LoW:
-            if nw not in self.words:
-                self.words[nw] = 1
-            else:
-                self.words[nw] += 1
-
+      """ creates the dictionary of words using self.cleanedtext
+      """
+      LoW = self.cleanedtext.split()
+      for i in LoW:
+        if i in self.words:
+          self.words[i] += 1
+        else:
+          self.words[i] = 1
+      
 
     def makeStems(self):
-        """
-            This method creates self.stems dictionary
-        """
-        S = self.text
-        S = self.cleanString(S)
-        LoW = S.split()
-
-        for nw in LoW:
-            SW = create_stem(nw)
-            if SW not in self.stems:
-                self.stems[SW] = 1
+       """ creates the dictionary of the stems of the words themselves
+       """
+       LoW = self.cleanedtext.split()
+       for i in LoW:
+            if create_stem(i) in self.stems:
+               self.stems[create_stem(i)] += 1
             else:
-                self.stems[SW] += 1
+               self.stems[create_stem(i)] = 1
 
-    def makeClauses(self):
-        """
-            This method create self.clauses which count the length of clauses
-            in the text ending with , or ; or : (as opposed to just sentences).
-        """
-        LengthC = 0
-        S = self.text
-        LoW = S.split()
-
-        for nw in LoW:
-            LengthC += 1
-            if nw[-1] in ',;:.?!' and LengthC > 1:
-                if LengthC not in self.clauses:
-                    self.clauses[LengthC] = 1
-                    LengthC = 0
-                else:
-                    self.clauses[LengthC] += 1
-                    LengthC = 0
-            elif nw[-1] in ',:;.?!':
-                LengthC = 0
+    #looking for common phrases in song lyrics (groups of 2, 3, 4)
+    def repeatedPhrasesLen2(self):
+       """ creates the dictionary for every two word lengthed phrase
+       """
+       LoW = self.cleanedtext.split()
+       i = 0
+       while i < len(LoW):
+        phrase = str(LoW[i: i+2])
+        if phrase in self.repeatedPhrase2:
+            self.repeatedPhrase2[phrase] += 1
+        else:
+            self.repeatedPhrase2[phrase] = 1
+        i += 1
     
+    def repeatedPhrasesLen3(self):
+       """ creates the dictionary for every three word lengthed phrase
+       """
+       LoW = self.cleanedtext.split()
+       i = 0
+       while i < len(LoW):
+        phrase = str(LoW[i: i+3])
+        if phrase in self.repeatedPhrase3:
+            self.repeatedPhrase3[phrase] += 1
+        else:
+            self.repeatedPhrase3[phrase] = 1
+        i += 1
+    
+    def repeatedPhrasesLen4(self):
+       """ creates the dictionary for every three word lengthed phrase
+       """
+       LoW = self.cleanedtext.split()
+       i = 0
+       while i < len(LoW):
+        phrase = str(LoW[i: i+4])
+        if phrase in self.repeatedPhrase4:
+            self.repeatedPhrase4[phrase] += 1
+        else:
+            self.repeatedPhrase4[phrase] = 1
+        i += 1
 
+    def repeatedPhrasesLen5(self):
+       """ creates the dictionary for every three word lengthed phrase
+       """
+       LoW = self.cleanedtext.split()
+       i = 0
+       while i < len(LoW):
+        phrase = str(LoW[i: i+5])
+        if phrase in self.repeatedPhrase5:
+            self.repeatedPhrase5[phrase] += 1
+        else:
+            self.repeatedPhrase5[phrase] = 1
+        i += 1
+       
+ 
     def normalizeDictionary(self, d):
-        """
-            this method returns another dictionary with a
-            normalized value of each item in dictionary d.
-        """
+      """accepts any model dictionary D and returns a normalized version
+      """
+      nd = {}
+      for k in d:
+        nd[k] = d[k] / float(sum(d.values()))
+      return nd
 
-        LoV = d.values()
-        Summation = sum(LoV)
-        nd = d.copy()
-
-
-        for k in nd:
-            nd[k] = nd[k]/Summation
-
-        return nd
-
-    
     def smallestValue(self, nd1, nd2):
-        """
-            This method accepts two dictionaries and returns the smallest
-            positive value across both nd1 and nd2.
-        """
+      """accepts two model dictionaries and returns the smallest positive 
+        value across them both
+      """
+      minNd1 = 1
+      minNd2 = 1
+      for k in nd1:
+         if nd1[k] <= minNd1:
+            minNd1 = nd1[k]
+      for k in nd2:
+         if nd2[k] <= minNd2:
+            minNd2 = nd2[k]
 
-        N1 = min(nd1.values())
-        N2 = min(nd2.values())
-
-        return min(N1,N2)
-
+      if minNd1 <= minNd2:
+        return minNd1
+      else:
+        return minNd2
+      
     def compareDictionaries(self, d, nd1, nd2):
-        """
-            This method compute the log-probability of dictionary d
-            being created from normalized dictionaries nd1 and nd2.
-        """
-        totalprob1 = 0
-        totalprob2 = 0
-        epsilon = self.smallestValue(nd1,nd2)/2
+      """computes the log probabilities that the dictionary d came from
+         the distribution of data in the normalized dictionaries nd1 
+         and nd2 and returns the value of the log probabilities.
+      """
+      total_log_prob = 0.0
+      epsilon = 0.5*(self.smallestValue(nd1, nd2))
+      for k in d:
+        if k in nd1:
+           total_log_prob += d[k]*math.log(nd1[k])
+        else:
+           total_log_prob += d[k]*math.log(epsilon)
+        lp1 = total_log_prob
+      total_log_prob = 0.0
+      for k in d:
+        if k in nd2:
+           total_log_prob += d[k]*math.log(nd2[k])
+        else:
+           total_log_prob += d[k]*math.log(epsilon)
+        lp2 = total_log_prob
+      return [lp1, lp2]
 
-        for i in d:
-            if i in nd1:
-                totalprob1 += d[i]*math.log(nd1[i])
-            else:
-                totalprob1 += d[i]*math.log(epsilon)
 
-        for i in d:
-            if i in nd2:
-                totalprob2 += d[i]*math.log(nd2[i])
-            else:
-                totalprob2 += d[i]*math.log(epsilon)
-
-        return totalprob1, totalprob2
-
-    
     def createAllDictionaries(self):
-        """Create out all five of self's
-           dictionaries in full.
-        """
-        self.makeSentenceLengths()
-        self.makeWords()
-        self.makeStems()
-        self.makeWordLengths()
-        self.makeClauses()
+      """Create out all of self's
+         dictionaries in full.
+      """
+      self.makeSentenceLengths()
+      self.makeWords()
+      self.makeStems()
+      self.makeWordLengths()
+      self.repeatedPhrasesLen2()     
+      self.repeatedPhrasesLen3()    
+      self.repeatedPhrasesLen4()     
+      self.repeatedPhrasesLen5()
 
 
+    def compareTextWithTwoModels(self, model1, model2):
+      """runs compareDictionaries for each feature dictionaries in self   
+          against corresponding dictionaries
+      """
 
-    def compareTextWithTwoModels(self,model1,model2):
-        """
-            This method compares the probability of textmodel self
-            arising from each textmodel model1 and model2
-            according to the 5 dictionaries.
-        """
+      #create normalized dictionaries for each dictionary
+      ndWords1 = self.normalizeDictionary(model1.words)
+      ndWords2 = self.normalizeDictionary(model2.words)
+      ndWordLengths1 = self.normalizeDictionary(model1.wordlengths)
+      ndWordLengths2 = self.normalizeDictionary(model2.wordlengths)
+      ndStems1 = self.normalizeDictionary(model1.stems)
+      ndStems2 = self.normalizeDictionary(model2.stems)
+      ndSentenceLengths1 = self.normalizeDictionary(model1.sentencelengths)
+      ndSentenceLengths2 = self.normalizeDictionary(model2.sentencelengths)
+      ndRepeatedPhrase2_1 = self.normalizeDictionary(model1.repeatedPhrase2)
+      ndRepeatedPhrase2_2 = self.normalizeDictionary(model2.repeatedPhrase2)
+      ndRepeatedPhrase3_1 = self.normalizeDictionary(model1.repeatedPhrase3)
+      ndRepeatedPhrase3_2 = self.normalizeDictionary(model2.repeatedPhrase3)
+      ndRepeatedPhrase4_1 = self.normalizeDictionary(model1.repeatedPhrase4)
+      ndRepeatedPhrase4_2 = self.normalizeDictionary(model2.repeatedPhrase4)
+      ndRepeatedPhrase5_1 = self.normalizeDictionary(model1.repeatedPhrase5)
+      ndRepeatedPhrase5_2 = self.normalizeDictionary(model2.repeatedPhrase5)
 
-        self.createAllDictionaries
+      #compute the two log-probability values of each dictionary
+      LogProbs1 = self.compareDictionaries(self.words, ndWords1, ndWords2)
+      LogProbs2 = self.compareDictionaries(self.wordlengths, ndWordLengths1, ndWordLengths2)
+      LogProbs3 = self.compareDictionaries(self.stems, ndStems1, ndStems2)
+      LogProbs4 = self.compareDictionaries(self.sentencelengths, ndSentenceLengths1, ndSentenceLengths2)
+      LogProbs5 = self.compareDictionaries(self.repeatedPhrase2, ndRepeatedPhrase2_1, ndRepeatedPhrase2_2)
+      LogProbs6 = self.compareDictionaries(self.repeatedPhrase3, ndRepeatedPhrase3_1, ndRepeatedPhrase3_2)
+      LogProbs7 = self.compareDictionaries(self.repeatedPhrase4, ndRepeatedPhrase4_1, ndRepeatedPhrase4_2)
+      LogProbs8 = self.compareDictionaries(self.repeatedPhrase5, ndRepeatedPhrase5_1, ndRepeatedPhrase5_2)
+      print("LogProbs1 is", LogProbs1)
+      print("LogProbs2 is", LogProbs2)
+      print("LogProbs3 is", LogProbs3)
+      print("LogProbs4 is", LogProbs4)
+      print("LogProbs5 is", LogProbs5)
+      print("LogProbs6 is", LogProbs6)
+      print("LogProbs7 is", LogProbs7)
+      print("LogProbs8 is", LogProbs8)
+      print("Overall comparison: \n" )
 
-        NSL1 = model1.normalizeDictionary(model1.sentencelengths)
-        NSL2 = model2.normalizeDictionary(model2.sentencelengths)
+      #generate comparison chart
+      print(f"     {'name':>20s}   {'vsTM1':>10s}   {'vsTM2':>10s} ")
+      print(f"     {'----':>20s}   {'-----':>10s}   {'-----':>10s} ")
+      d_name = 'words'
+      print(f"     {d_name:>20s}   {LogProbs1[0]:>10.2f}   {LogProbs1[1]:>10.2f} ") 
+      d_name = 'word lengths'
+      print(f"     {d_name:>20s}   {LogProbs2[0]:>10.2f}   {LogProbs2[1]:>10.2f} ") 
+      d_name = 'word stems'
+      print(f"     {d_name:>20s}   {LogProbs3[0]:>10.2f}   {LogProbs3[1]:>10.2f} ")
+      d_name = 'sentence lengths'
+      print(f"     {d_name:>20s}   {LogProbs4[0]:>10.2f}   {LogProbs4[1]:>10.2f} ")  
+      d_name = 'repeated Phrases length 2'
+      print(f"     {d_name:>20s}   {LogProbs5[0]:>10.2f}   {LogProbs5[1]:>10.2f} ") 
+      d_name = 'repeated Phrases length 3'
+      print(f"     {d_name:>20s}   {LogProbs6[0]:>10.2f}   {LogProbs6[1]:>10.2f} ") 
+      d_name = 'repeated Phrases length 4'
+      print(f"     {d_name:>20s}   {LogProbs7[0]:>10.2f}   {LogProbs7[1]:>10.2f} ") 
+      d_name = 'repeated Phrases length 5'
+      print(f"     {d_name:>20s}   {LogProbs8[0]:>10.2f}   {LogProbs8[1]:>10.2f} ") 
+      
+      #compare the two text models
+      textMod1 = [LogProbs1[0], LogProbs2[0], LogProbs3[0], LogProbs4[0], LogProbs5[0], LogProbs6[0], LogProbs7[0], LogProbs8[0]]
+      textMod2 = [LogProbs1[1], LogProbs2[1], LogProbs3[1], LogProbs4[1], LogProbs5[1], LogProbs6[1], LogProbs7[1], LogProbs8[1]]
+      model1Wins = 0
+      model2Wins = 0
+      print(textMod1)
 
-        SLengthProb = self.compareDictionaries(self.sentencelengths, NSL1, NSL2)
+      for i in range(len(textMod1)):
+         if textMod1[i] > textMod2[i]:
+            model1Wins += 1
+         if textMod1[i] < textMod2[i]:
+            model2Wins += 1
+
+      print("--> Text model 1 wins on ", model1Wins, "features")
+      print("-->  Text model 2 wins on ", model2Wins, "features")
+      if model1Wins > model2Wins:
+         print("Text model 1 is the better match!")
+      else:
+         print("Text model 2 is the better match!")
+      
+
+      
 
 
-        NWL1 = model1.normalizeDictionary(model1.wordlengths)
-        NWL2 = model2.normalizeDictionary(model2.wordlengths)
+# And let's test things out here...
+TMintro = TextModel()
 
-        WLengthProb = self.compareDictionaries(self.wordlengths, NWL1, NWL2)
+# Add a call that puts information into the model
+TMintro.addRawText("""This is a small sentence. This isn't a small
+sentence, because this sentence contains more than 10 words and a
+number! This isn't a question, is it?""")
 
+# Put the above triple-quoted string into a file named test.txt, then run this:
+#  TMintro.addFileText("test.txt")   # "comment in" this line, once the file is created
 
-        NW1 = model1.normalizeDictionary(model1.words)
-        NW2 = model2.normalizeDictionary(model2.words)
+# Print it out
+print("TMintro is", TMintro)
 
-        WProb = self.compareDictionaries(self.words, NW1, NW2)
-
-
-        NS1 = model1.normalizeDictionary(model1.stems)
-        NS2 = model2.normalizeDictionary(model2.stems)
-
-        SProb = self.compareDictionaries(self.stems, NS1, NS2)
-
-
-        NCL1 = model1.normalizeDictionary(model1.clauses)
-        NCL2 = model2.normalizeDictionary(model2.clauses)
-
-        CLengthProb = self.compareDictionaries(self.clauses, NCL1, NCL2)
-
-        print("""
-        Comparisons     Model1      Model2
-        """)
-        print("Sentence lengths:", SLengthProb[0], "   ", SLengthProb[1])
-        print("Word lengths:", WLengthProb[0], "   ", WLengthProb[1])
-        print("Words:", WProb[0], "   ", WProb[1])
-        print("Stems:", SProb[0], "   ", SProb[1])
-        print("Clause lengths:", CLengthProb[0], "   ", CLengthProb[1])
-
-        tally = 0
-
-        if SLengthProb[0] > SLengthProb[1]:
-            tally += 1
-        if WLengthProb[0] > WLengthProb[1]:
-            tally += 1
-        if WProb[0] > WProb[1]:
-            tally += 1
-        if SProb[0] > SProb[1]:
-            tally += 1
-        if CLengthProb[0] > CLengthProb[1]:
-            tally += 1
-        
-        print("Model1 has more probability on", tally, "parameter(s)")
-        print("Model2 has more probability on", 5-tally, "parameter(s)")
-        print()
-        if tally > 3:
-            print("Based on parameters number Model1 fits better\n")
-        else:
-            print("Based on parameters number Model2 fits better\n")
-
-        TotalProb1 = SLengthProb[0]+WLengthProb[0]+WProb[0]+SProb[0]+CLengthProb[0]
-        TotalProb2 = SLengthProb[1]+WLengthProb[1]+WProb[1]+SProb[1]+CLengthProb[1]
-
-        print("The total probability logarithm for Model1 is:", TotalProb1)
-        print("The total probability logarithm for Model2 is:", TotalProb2)
-        print()
-        if TotalProb1>TotalProb2:
-            print("Based on total probability, the better fit is Model1")
-        else:
-            print("Based on total probability, the better fit is Model2")
-
-# And test things out here...
+print(" +++++++++++ TextModel 1 +++++++++++ ")
 TM1 = TextModel()
-TM1.readTextFromFile("Rankine.txt")
-TM1.createAllDictionaries()  
+TM1.addFileText("hungerGames.txt")
+TM1.createAllDictionaries()  # provided in hw description
+print(TM1)
+
+print(" +++++++++++ TextModel 2 +++++++++++ ")
 TM2 = TextModel()
-TM2.readTextFromFile("SchubertWilliamMann.txt")
-TM2.createAllDictionaries()
-Unknown = TextModel()
-Unknown.readTextFromFile("cs5week0.txt")
-Unknown.createAllDictionaries()
-Unknown.compareTextWithTwoModels(TM1,TM2)
+TM2.addFileText("divergent.txt")
+TM2.createAllDictionaries()  # provided in hw description
+print(TM2)
+
+
+print(" +++++++++++ test +++++++++++ ")
+TM_Unk = TextModel()
+TM_Unk.addFileText("percyJackson.txt")
+TM_Unk.createAllDictionaries()  # provided in hw description
+print(TM_Unk)
+
 
 

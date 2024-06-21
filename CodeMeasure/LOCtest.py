@@ -144,7 +144,12 @@ def sumTests(boolList):
 commentList = []
 totalScriptList = []
 
+
+# CHANGE THE SCRIPT HERE
+# ---------------------------
 scriptPath = "textModel.py"
+# ---------------------------
+
 
 inputfile = open(scriptPath, "r")
 inputfiletest2 = open(scriptPath, "r")
