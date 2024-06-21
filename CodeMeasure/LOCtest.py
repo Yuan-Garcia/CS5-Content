@@ -50,7 +50,9 @@ def funcName(fullScript):
         if re.search(getNames, i):
             tempList.append(i)
     for n, i in enumerate(tempList):
-        ansList.append((i.split("(")[0])[4:]) #parses out the variable and the "def ", giving only the variable name
+        parsedFuncName = i.split("(")[0]
+        re.sub("/t","", parsedFuncName)
+        ansList.append(parsedFuncName[4:]) #parses out the variable and the "def ", giving only the variable name
     return ansList
 
 def containsString(str, noCommentScriptStr):
@@ -142,7 +144,7 @@ def sumTests(boolList):
 commentList = []
 totalScriptList = []
 
-scriptPath = "textModel.py"
+scriptPath = "connect4.py"
 
 inputfile = open(scriptPath, "r")
 inputfiletest2 = open(scriptPath, "r")

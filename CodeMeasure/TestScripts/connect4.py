@@ -28,6 +28,13 @@ def inarow_Neast(ch, r_start, c_start, A, N):
             return False
     return True  # all offsets succeeded, so we return True
 
+
+def sneakyRecur(self, x):
+    if x==0:
+        return x
+    else:
+        return self.sneakyRecur(x-1)
+
 def inarow_Nsouth(ch, r_start, c_start, A, N):
     """Starting from (row, col) of (r_start, c_start)
        within the 2d list-of-lists A (array),

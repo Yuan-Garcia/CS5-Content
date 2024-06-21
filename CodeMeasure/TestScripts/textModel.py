@@ -73,6 +73,13 @@ class TextModel(object):
 
         return s
 
+
+    def sneakyRecur(self, x):
+        if x==0:
+            return x
+        else:
+            return self.sneakyRecur(x-1)
+    
     def makeWordLengths(self):
         """
             This method analyzes the different word lengths in self.text
@@ -295,6 +302,5 @@ Unknown = TextModel()
 Unknown.readTextFromFile("cs5week0.txt")
 Unknown.createAllDictionaries()
 Unknown.compareTextWithTwoModels(TM1,TM2)
-
 
 
