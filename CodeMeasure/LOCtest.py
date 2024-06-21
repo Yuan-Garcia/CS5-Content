@@ -153,22 +153,35 @@ for x in inputfile:
 
 # for i in splitFunc(scriptPath):
 #     print(i)
-
 commentList = [z for z in commentList if z != ""]
-print("The total LOC is: " + str(len(totalScriptList)))
-#print("The Cyclomatic Complexity is: " + str(CyclomaticChicanery(noCommentsinputfile)))
-  
-#print("The comment level is: " + str(len(commentList)))
-print("The percentage comments is: " + str((1-(len(noCommentsinputfile)/len(open(scriptPath, "r").read())))*100))
 
-print("There are " + str(len(funcName(totalScriptList))) + " functions present")
-#print("These functions are: " + str(funcName(totalScriptList)))
+def bold_colored_text(text, color_code):
+    return f"\033[1;{color_code}m{text}\033[0m"
 
-print("The total Cyclomatic Complexity is " + str(calculate_cyclomatic_complexity(open(scriptPath, "r").read())))
+# Color codes
+COLOR_BLUE = 34
+COLOR_GREEN = 32
+COLOR_RED = 31
+
+alignment_width = 43  # Adjusted width for alignment
+
+def color_boolean(value):
+    return bold_colored_text(value, COLOR_GREEN if value else COLOR_RED)
+
+print(f"{'The total LOC is:':<{alignment_width}}" + bold_colored_text(len(totalScriptList), COLOR_BLUE))
+# print(f"{'The Cyclomatic Complexity is:':<{alignment_width}}" + bold_colored_text(CyclomaticChicanery(noCommentsinputfile), COLOR_GREEN))
+
+comment_percentage = (1 - (len(noCommentsinputfile) / len(open(scriptPath, "r").read()))) * 100
+print(f"{'The percentage comments is:':<{alignment_width}}" + bold_colored_text(f"{comment_percentage:.3f} %", COLOR_BLUE))
+
+print(f"{'There are functions present:':<{alignment_width}}" + bold_colored_text(len(funcName(totalScriptList)), COLOR_BLUE))
+# print(f"{'These functions are:':<{alignment_width}}" + bold_colored_text(funcName(totalScriptList), COLOR_GREEN))
+
+print(f"{'The total Cyclomatic Complexity is:':<{alignment_width}}" + bold_colored_text(calculate_cyclomatic_complexity(open(scriptPath, "r").read()), COLOR_BLUE))
 
 call_graph = build_call_graph(scriptPath)
 ambition_score = measure_ambition(call_graph)
-print("The highest level of function nesting is " + str(ambition_score))
+print(f"{'The highest level of function nesting is:':<{alignment_width}}" + bold_colored_text(ambition_score, COLOR_BLUE))
 
 weeksTesting = []
 weeksTesting.append(findIfOrVar(noCommentsinputfile))
@@ -181,16 +194,17 @@ weeksTesting.append(findNestedLoops(scriptPath))
 weeksTesting.append(findDictionaries(noCommentsinputfile))
 weeksTesting.append(findOop(scriptPath))
 
-print("Has if's or variables?" ,findIfOrVar(noCommentsinputfile))
-print("Has Recursion?",findRecursion(scriptPath))
-print("Has List Comprehension?" ,findListComp(noCommentsinputfile))
-print("Has Slicing?", findSlicing(noCommentsinputfile))
-print("Has Boolean Algebra?", findBoolAlg(noCommentsinputfile))
-print("Has Loops?", findLoops(scriptPath))
-print("Has Nested loops?",findNestedLoops(scriptPath))
-print("Has Dictionaries?", findDictionaries(noCommentsinputfile))
-print("Has OOP?", findOop(scriptPath))
-print("This project encompasses", sumTests(weeksTesting), "out of", len(weeksTesting), "weeks tested in this course")
+print(f"{'Week 1: Has ifs or variables?':<{alignment_width}}" + color_boolean(findIfOrVar(noCommentsinputfile)))
+print(f"{'Week 2: Has Recursion?':<{alignment_width}}" + color_boolean(findRecursion(scriptPath)))
+print(f"{'Week 3: Has List Comprehension?':<{alignment_width}}" + color_boolean(findListComp(noCommentsinputfile)))
+print(f"{'Week 4: Has Slicing?':<{alignment_width}}" + color_boolean(findSlicing(noCommentsinputfile)))
+print(f"{'Week 5: Has Boolean Algebra?':<{alignment_width}}" + color_boolean(findBoolAlg(noCommentsinputfile)))
+print(f"{'Week 7: Has Loops?':<{alignment_width}}" + color_boolean(findLoops(scriptPath)))
+print(f"{'Week 8: Has Nested loops?':<{alignment_width}}" + color_boolean(findNestedLoops(scriptPath)))
+print(f"{'Week 9: Has Dictionaries?':<{alignment_width}}" + color_boolean(findDictionaries(noCommentsinputfile)))
+print(f"{'Week 10: Has OOP?':<{alignment_width}}" + color_boolean(findOop(scriptPath)))
+print(f"{'This project encompasses':<{alignment_width}}" + bold_colored_text(sumTests(weeksTesting), COLOR_BLUE) + " out of " + bold_colored_text(len(weeksTesting), COLOR_BLUE) + " weeks tested in this course")
+
 #print(findFunctionsInScript("LOC.py"))
 #hi
 
