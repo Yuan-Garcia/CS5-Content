@@ -142,7 +142,7 @@ def sumTests(boolList):
 commentList = []
 totalScriptList = []
 
-scriptPath = "tetris.py"
+scriptPath = "textModel.py"
 
 inputfile = open(scriptPath, "r")
 inputfiletest2 = open(scriptPath, "r")
