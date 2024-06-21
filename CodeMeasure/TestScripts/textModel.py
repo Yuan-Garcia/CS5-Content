@@ -74,11 +74,11 @@ class TextModel(object):
         return s
 
 
-    def sneakyRecur(self, x):
-        if x==0:
-            return x
-        else:
-            return self.sneakyRecur(x-1)
+    # def sneakyRecur(self, x):
+    #     if x==0:
+    #         return x
+    #     else:
+    #         return self.sneakyRecur(x-1)
     
     def makeWordLengths(self):
         """
