@@ -70,14 +70,28 @@ def nested_while_with_conditionals():
             if i == 2 and j == 2:
                 print(f"Special case: i={i}, j={j}")
             else:
-                print(f"Normal case: i={i}, j={j}") 
+                print(f"Normal case: i={i}, j={j}")
             j += 1
         i += 1
 
-# Call the function
+def func1():
+    print("Inside func1")
+    func2()
+
+def func2():
+    print("Inside func2")
+    func3()
+
+def func3():
+    print("Inside func3")
+    func1()
+
 nested_while_with_conditionals()
 
-#  
+def another_function_with_list_comp():
+    numbers = [1, 2, 3, 4]
+    even_numbers = [x for x in numbers if x % 2 == 0]  # List comprehension with condition
+    return even_numbers
 # Example usage:
 try:
     number = 6

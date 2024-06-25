@@ -1,98 +1,59 @@
 # import ast
 
-# class FunctionCallVisitor(ast.NodeVisitor):
+# class AmbitionScoreCalculator:
 #     def __init__(self):
-#         self.functions = {}
-#         self.current_function = None
+#         self.graph = {}
 
-#     def visit_FunctionDef(self, node):
-#         self.current_function = node.name
-#         self.functions[node.name] = []
-#         self.generic_visit(node)
+#     def addEdge(self, caller, callee):
+#         if caller not in self.graph:
+#             self.graph[caller] = []
+#         self.graph[caller].append(callee)
 
-#     def visit_Call(self, node):
-#         if self.current_function is not None:
+#     def dfs(self, node, visited, path, allPaths):
+#         visited[node] = True
+#         path.append(node)
+
+#         if node not in self.graph or not self.graph[node]:
+#             allPaths.append(path.copy())  # Adding path to allPaths
+#             print(f"Added path: {path.copy()}")  # Debug print for added paths
+#         else:
+#             for neighbor in self.graph[node]:
+#                 if not visited[neighbor]:
+#                     self.dfs(neighbor, visited, path, allPaths)
+
+#         path.pop()
+#         visited[node] = False
+
+#     def findLongestBranch(self):
+#         allPaths = []
+#         visited = {node: False for node in self.graph}
+
+#         for node in self.graph:
+#             if not visited[node]:  # Only call dfs if the node is not visited
+#                 self.dfs(node, visited, [], allPaths)
+
+#         print("All paths:", allPaths)  # Debug print for allPaths
+#         if allPaths:  # Check if allPaths is not empty
+#             longestPath = max(allPaths, key=len)
+#             return longestPath
+#         else:
+#             return []
+
+#     def buildFromAST(self, node, currentFunction=None):
+#         if isinstance(node, ast.FunctionDef):
+#             currentFunction = node.name
+#             if currentFunction not in self.graph:
+#                 self.graph[currentFunction] = []
+#         elif isinstance(node, ast.Call) and currentFunction:
 #             if isinstance(node.func, ast.Name):
-#                 self.functions[self.current_function].append(node.func.id)
-#         self.generic_visit(node)
+#                 callee = node.func.id
+#                 self.addEdge(currentFunction, callee)
+        
+#         for child in ast.iter_child_nodes(node):
+#             self.buildFromAST(child, currentFunction)
 
-# def build_call_graph(script_path):
-#     with open(script_path, "r") as file:
-#         tree = ast.parse(file.read(), filename=script_path)
-    
-#     visitor = FunctionCallVisitor()
-#     visitor.visit(tree)
-#     return visitor.functions
-
-# def measure_ambition(call_graph):
-#     def visit(function, visited):
-#         if function in visited:
-#             return 0
-#         visited.add(function)
-#         max_depth = 0
-#         for callee in call_graph.get(function, []):
-#             max_depth = max(max_depth, visit(callee, visited))
-#         visited.remove(function)
-#         return max_depth + 1
-
-#     max_chain_length = 0
-#     for function in call_graph:
-#         max_chain_length = max(max_chain_length, visit(function, set()))
-#     return max_chain_length
-
-# # # Example usage
-# # script_path = "LOC.py"
-# # call_graph = build_call_graph(script_path)
-# # ambition_score = measure_ambition(call_graph)
-
-# # print(f"Ambition score (max chain length): {ambition_score}")
-import ast
-
-class FunctionCallVisitor(ast.NodeVisitor):
-    def __init__(self):
-        self.functions = {}
-        self.current_function = None
-
-    def visit_FunctionDef(self, node):
-        self.current_function = node.name
-        self.functions[node.name] = []
-        self.generic_visit(node)
-        self.current_function = None
-
-    def visit_Call(self, node):
-        if self.current_function is not None:
-            if isinstance(node.func, ast.Name):
-                self.functions[self.current_function].append(node.func.id)
-        self.generic_visit(node)
-
-def build_call_graph(script_path):
-    with open(script_path, "r") as file:
-        tree = ast.parse(file.read(), filename=script_path)
-    
-    visitor = FunctionCallVisitor()
-    visitor.visit(tree)
-    return visitor.functions
-
-def measure_ambition(call_graph):
-    def visit(function, visited):
-        if function in visited:
-            return 0
-        visited.add(function)
-        max_depth = 0
-        for callee in call_graph.get(function, []):
-            if callee in call_graph:
-                max_depth = max(max_depth, visit(callee, visited))
-        visited.remove(function)
-        return max_depth + 1
-
-    max_chain_length = 0
-    for function in call_graph:
-        max_chain_length = max(max_chain_length, visit(function, set()))
-    return max_chain_length
-
-# Example usage
-# script_path = "LOC.py"
-# call_graph = build_call_graph(script_path)
-# ambition_score = measure_ambition(call_graph)
-
-# print(f"Ambition score (max chain length): {ambition_score}")
+#     def findLongestPath(self, script):
+#         tree = ast.parse(script)
+#         self.buildFromAST(tree)
+#         # print("Graph:", self.graph)  # Debug print for the graph
+#         return self.findLongestBranch()

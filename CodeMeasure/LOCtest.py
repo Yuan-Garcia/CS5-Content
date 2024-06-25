@@ -1,7 +1,6 @@
 import re  
 import ast
 from Cyclomatic import *
-from NestedDepth import *
 
 def commentCheck(comment): #fix becauyse it works now
     #hashtags = "\#[^\n\r]+?(?:[\n\r])"   # is the actual solution
@@ -54,6 +53,47 @@ def funcName(fullScript):
         parsedFuncName = re.sub(" ","", parsedFuncName)
         ansList.append(parsedFuncName[3:]) #parses out the variable and the "def ", giving only the variable name
     return ansList
+
+def findLongestBranch(scriptPath): # longest chain of dependencies without recursion 
+    functions = splitFunc(scriptPath)
+    totalScriptList = []
+    inputFile = open(scriptPath, "r")
+    allPaths = []
+    for x in inputFile:
+        totalScriptList.append(x)
+    names = funcName(totalScriptList) # is this a list or not? 
+    for func in functions:
+        currentPath = []
+        path = findBranches(func, functions, names, currentPath)
+        print('currentPath appending', path)
+        allPaths.append(path)
+        print('allpafs =', allPaths)
+    print('longest chain length is', len(max(allPaths, key=len)))
+    return len(max(allPaths, key=len))
+    # return 1
+
+def findBranches(func, funcs, names, currentPath):
+    name = names[:] # shallow copy 
+    funcBody = func.split(':', 1)[1].strip() #get everything behind the colon 
+
+    funcName = re.search("def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(", func).group(1) # before colon
+    # print(funcName)
+    # print(funcBody)
+    isRecursive = funcName in funcBody
+    # print(isRecursive)
+    # base case: if there is no function call in the function
+    if isRecursive or not any(name in funcBody for name in names): # if function doesnt have another function call or function is recursive, terminate
+        print('returning path', currentPath)
+        return currentPath
+    else:
+        for name in names:  # if yes, add it to the current path if the name is in the BODY of the function 
+            if name in funcBody:
+                currentPath.append(name)
+                print('currentPath =', currentPath)
+                # names = names.remove(name)
+            nextFunc = funcs[names.index(name)-1] # go to function that just got called 
+            # names = names.remove(name)
+        return findBranches(nextFunc, funcs, names, currentPath)
 
 def containsString(str, noCommentScriptStr):
     wordScript = noCommentScriptStr.split(" ")
@@ -116,7 +156,6 @@ def findListComp(noCommentScriptStr):
             return True
     return False
     
-
 def findOop(scriptPath):
     with open(scriptPath, "r") as file:
         tree = ast.parse(file.read(), filename=scriptPath)
@@ -139,13 +178,14 @@ def sumTests(boolList):
             total = total+1
     return total
 
+
 commentList = []
 totalScriptList = []
 
 
 # CHANGE THE SCRIPT HERE
 # ---------------------------
-scriptPath = "LOC.py"
+scriptPath = "textModel.py"
 # ---------------------------
 
 
@@ -184,9 +224,8 @@ print(f"{'There are functions present:':<{alignment_width}}" + bold_colored_text
 
 print(f"{'The total Cyclomatic Complexity is:':<{alignment_width}}" + bold_colored_text(calculate_cyclomatic_complexity(open(scriptPath, "r").read()), COLOR_BLUE))
 
-call_graph = build_call_graph(scriptPath)
-ambition_score = measure_ambition(call_graph)
-print(f"{'The highest level of function nesting is:':<{alignment_width}}" + bold_colored_text(ambition_score, COLOR_BLUE))
+ambitionScore = findLongestBranch(scriptPath)
+print(f"{'The highest level of function nesting is:':<{alignment_width}}" + bold_colored_text(ambitionScore, COLOR_BLUE))
 
 weeksTesting = []
 weeksTesting.append(findIfOrVar(noCommentsinputfile))
