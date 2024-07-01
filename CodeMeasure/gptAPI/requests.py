@@ -7,10 +7,9 @@ client = OpenAI(
 )
 
 messages = [
-            {"role": "system", "content": "You are a helpful assistant that answers questions about programming."},
-            {"role": "user", "content": "Can you explain what a Python dictionary is?"},
-            {"role": "assistant", "content": "Sure! A Python dictionary is a collection of key-value pairs. It is used to store data values like a map, unlike other data types that hold only a single value as an element. A dictionary is defined using curly braces {}."},
-            {"role": "user", "content": "How do you add a new key-value pair to a dictionary?"}
+            {"role": "system", "content": "You are a helpful assistant that helps me breaks down the meaning of functions."},
+            {"role": "user", "content": "def example_function():\n return x*2"},
+            {"role": "user", "content": "Break down line by line what this function does?"}
         ]
 
 
@@ -19,6 +18,7 @@ def get_response():
         model = "gpt-3.5-turbo",
         messages = messages
     )
+    # print(response.choices[0])
     return response.choices[0].message.content
 
 print(get_response())
