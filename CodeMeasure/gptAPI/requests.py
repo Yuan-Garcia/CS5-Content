@@ -18,7 +18,7 @@ client = OpenAI(
 messages = [
             {"role": "system", "content": "You are a helpful assistant that helps me breaks down the meaning of functions."},
             {"role": "user", "content": " # def function_without_list_comp(): #     my_list = [1, 2, 3] #     squared_list = [] #     for x in my_list: #         squared_list.append(x**2)  # Regular loop #     return squared_list "}, 
-            {"role": "user", "content": "Break down line by line what this function does?"}
+            {"role": "user", "content": "Break down line by line what this function does, and also evaluate the in line comments?"}
         ]
 
 
