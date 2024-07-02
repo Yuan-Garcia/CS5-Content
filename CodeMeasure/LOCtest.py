@@ -244,6 +244,7 @@ ambitionScore = depthChain.depth
 print(f"{'The highest level of function nesting is:':<{alignment_width}}" + bold_colored_text(ambitionScore, COLOR_BLUE))
 
 print(f"{'The most function calls within a function:':<{alignment_width}}" + bold_colored_text(depthChain.maxFunctionCalls, COLOR_BLUE))
+
 # weeksTesting = []
 # weeksTesting.append(findIfOrVar(noCommentsinputfile))
 # weeksTesting.append(findRecursion(scriptPath))

@@ -1,5 +1,5 @@
 from openai import OpenAI
-# from toString import StringFormat
+from toString import StringFormat
 import openai
 import os
 
