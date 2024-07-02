@@ -3,6 +3,7 @@ import ast
 from Cyclomatic import *
 from NestedDepth import CallChain 
 
+
 def commentCheck(comment): #fix becauyse it works now
     #hashtags = "\#[^\n\r]+?(?:[\n\r])"   # is the actual solution
     hashtags = "[\#]" # is the very temporary solution until I figure out how to get the actual solution to work
