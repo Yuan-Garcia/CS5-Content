@@ -75,16 +75,13 @@ def nested_while_with_conditionals():
         i += 1
 
 def func1():
-    print("Inside func1")
     func2()
 
 def func2():
-    print("Inside func2")
     func3()
 
 def func3():
-    print("Inside func3")
-    func1()
+    print("terminate")
 
 nested_while_with_conditionals()
 
@@ -99,5 +96,3 @@ try:
     print(f"The Fibonacci number for {number} is {result}.")
 except ValueError as e:
     print(e)
-
-
