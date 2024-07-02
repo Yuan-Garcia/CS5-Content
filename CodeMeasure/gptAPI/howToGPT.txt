@@ -1,0 +1,10 @@
+installations:
+pip install openai
+
+environment variable:
+see my SFA log for the api key
+in your terminal:
+- macs: export OPENAI_API_KEY="key"
+- windows: set OPENAI_API_KEY="key"
+
+can tinker with the input message, just make sure its in the right format of a string
