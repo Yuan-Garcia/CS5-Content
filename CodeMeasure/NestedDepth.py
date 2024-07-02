@@ -4,10 +4,17 @@ class CallChain:
     def __init__(self, functions, funcNames):
         self.functions = functions
         self.names = funcNames
-        self.depth = self.findLongestBranch()
-        self.totalFuncCalls = 0
-        self.maxFunctionCalls = self.findFunctionCalls()[0]
-        self.maxFunctionCallsList = self.findFunctionCalls()[1]
+        self.depth = self.findLongestBranch()[0]
+        self.longestChain = self.findLongestBranch()[1]
+        self.totalFuncCalls = 0 # gets updated after self.maxFunctionCalls is initialized
+
+        self.maxFunctionCalls = self.findFunctionCalls()[0] 
+        self.maxFunctionCallsList = self.findFunctionCalls()[1] # list of function calls in function with the most calls
+        self.functionMostCalls = self.maxFunctionCallsList[0] # function with the most calls
+
+        self.averageDepth = self.depth/len(self.names)
+        self.averageCalls = self.totalFuncCalls/len(self.names)
+
 
     def findBranches(self, func, funcs, names, currentPath):
         funcBody = func.split(':', 1)[1].strip()  # get everything behind the colon
@@ -47,9 +54,9 @@ class CallChain:
             # print('allPaths =', allPaths)
         
         longestPath = max(allPaths, key=lambda x: self.findMaxDepth(x))
-        print('longest chain length is', self.findMaxDepth(longestPath))
-        print('Longest chain contains: ', longestPath)
-        return self.findMaxDepth(longestPath)
+        # print('longest chain length is', self.findMaxDepth(longestPath))
+        # print('Longest chain contains: ', longestPath)
+        return self.findMaxDepth(longestPath), longestPath
 
     def findMaxDepth(self, nestedList, currentDepth=1):
         if not isinstance(nestedList, list) or not nestedList:
@@ -71,7 +78,7 @@ class CallChain:
             funcName = re.search("def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(", func).group(1)
             currentPath = [funcName]
             for name in self.names:
-                if name in funcBody and name not in funcName:
+                if name in funcBody and name not in funcName and name not in currentPath:
                     currentPath.append(name)
                     self.totalFuncCalls += 1
                     currentNumCalls += 1
@@ -79,6 +86,6 @@ class CallChain:
             maxCalls = max(maxCalls, currentNumCalls)
             callsList.append(currentPath)
         maxCallsList = max(callsList, key=len)
-        print('The most function calls within a function', maxCallsList)
-        print('The function with the most calls in it is', maxCallsList[0])
+        # print('The most function calls within a function', maxCallsList)
+        # print('The function with the most calls in it is', maxCallsList[0])
         return maxCalls, maxCallsList

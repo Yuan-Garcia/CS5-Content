@@ -22,5 +22,3 @@ class StringFormat:
     
 noStringScript = StringFormat("CodeMeasure/LOC.py")
 print(noStringScript.finalString)
-
-print("hello world")

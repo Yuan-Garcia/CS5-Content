@@ -201,7 +201,7 @@ totalScriptList = []
 
 # CHANGE THE SCRIPT HERE
 # ---------------------------
-scriptPath = "CodeMeasure/LOC.py"
+scriptPath = "CodeMeasure/TestScripts/tetris.py"
 # ---------------------------
 
 
@@ -242,8 +242,14 @@ def color_boolean(value):
 depthChain = CallChain(splitFunc(scriptPath), funcName(scriptPath))
 ambitionScore = depthChain.depth
 print(f"{'The highest level of function nesting is:':<{alignment_width}}" + bold_colored_text(ambitionScore, COLOR_BLUE))
+print(f"{'The longest chain of function calls is:':<{alignment_width}}" + bold_colored_text(depthChain.longestChain, COLOR_BLUE))
 
 print(f"{'The most function calls within a function:':<{alignment_width}}" + bold_colored_text(depthChain.maxFunctionCalls, COLOR_BLUE))
+
+print(f"{'The function with the most calls is:':<{alignment_width}}" + bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE))
+print(f"{'The calls in '+ bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE):}" +" include " + bold_colored_text(depthChain.maxFunctionCallsList, COLOR_BLUE))
+
+
 
 # weeksTesting = []
 # weeksTesting.append(findIfOrVar(noCommentsinputfile))
