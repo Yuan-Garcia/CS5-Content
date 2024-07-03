@@ -68,6 +68,19 @@ class CallChain:
                 maxDepth = max(maxDepth, depth)
         return maxDepth
     
+    def depthParsing(self, nestedList, depth):
+        maxDepth = self.findMaxDepth(nestedList)
+        for i in nestedList:
+            if self.findMaxDepth(i)+depth == maxDepth:
+                return nestedList[0]
+            elif self.findMaxDepth(i) > 1:
+                return self.depthParsing(i, depth + 1)
+        
+    print(self.depthParsing(['playGame', ['addMove'], ['allowsMove'], ['isFull'], ['winsFor'], ['nextMove', ['tiebreakMove'], ['scoresFor'], ['tiebreakMove'], ['scoresFor']], ['addMove'], ['allowsMove'], ['isFull'], ['winsFor'], ['nextMove', ['tiebreakMove'], ['scoresFor'], ['tiebreakMove'], ['scoresFor']]],0))           
+                
+
+
+
     def findFunctionCalls(self): # How many function calls inside a function, ignoring depth and recursion
         callsList = []
         maxCalls = 1

@@ -196,7 +196,7 @@ print(f"{'The highest level of function nesting is:':<{alignment_width}}" + bold
 print(f"{'The longest chain of function calls is:':<{alignment_width}}" + bold_colored_text(depthChain.longestChain, COLOR_BLUE))
 
 print(f"{'The most function calls within a function:':<{alignment_width}}" + bold_colored_text(depthChain.maxFunctionCalls, COLOR_BLUE))
-
+print(depthChain.depthParsing(['playGame', ['addMove'], ['allowsMove'], ['isFull'], ['winsFor'], ['nextMove', ['tiebreakMove'], ['scoresFor'], ['tiebreakMove'], ['scoresFor']], ['addMove'], ['allowsMove'], ['isFull'], ['winsFor'], ['nextMove', ['tiebreakMove'], ['scoresFor'], ['tiebreakMove'], ['scoresFor']]],0))           
 print(f"{'The function with the most calls is:':<{alignment_width}}" + bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE))
 print(f"{'The calls in '+ bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE):}" +" include " + bold_colored_text(depthChain.maxFunctionCallsList, COLOR_BLUE))
 
