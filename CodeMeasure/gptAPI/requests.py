@@ -18,6 +18,7 @@ client = OpenAI(
 # noStringScript = StringFormat("CodeMeasure/LOC.py") RUN WITH RUN BUTTON
 
 noStringScript = str(StringFormat("../LOC.py"))
+
 # print(noStringScript)
 
 
@@ -33,15 +34,15 @@ messages = [
             {"role": "user", "content": "Break down line by line what this function does?"}
         ]
 
+print("\n")
 
+def get_response():  
+    response = client.chat.completions.create(
+        model = "gpt-3.5-turbo",
+        messages = messages
+    )
+    print(response.choices[0])
+    return response.choices[0].message.content
 
-# def get_response():  
-#     response = client.chat.completions.create(
-#         model = "gpt-3.5-turbo",
-#         messages = messages
-#     )
-#     print(response.choices[0])
-#     return response.choices[0].message.content
-
-
-# print(get_response())
+print("\n")
+print(get_response())

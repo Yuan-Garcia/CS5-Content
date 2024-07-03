@@ -17,8 +17,8 @@ class StringFormat:
     
     def removeTabNewLn(self, noCommentsStr):
         noCommentsStr = re.sub("[\t+\n]", "", noCommentsStr)
-        print("the final script is", noCommentsStr)
+        # print("the final script is", noCommentsStr)
         return noCommentsStr
     
 noStringScript = StringFormat("CodeMeasure/LOC.py")
-print(noStringScript.finalString)
+# print(noStringScript.finalString)
