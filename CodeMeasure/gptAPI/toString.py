@@ -20,5 +20,5 @@ class StringFormat:
         print("the final script is", noCommentsStr)
         return noCommentsStr
     
-noStringScript = StringFormat("CodeMeasure/LOC.py")
-print(noStringScript.finalString)
+# noStringScript = StringFormat("CodeMeasure/LOC.py")
+# print(noStringScript.finalString)
