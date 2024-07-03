@@ -17,7 +17,7 @@ client = OpenAI(
 # def function_without_list_comp(): #     my_list = [1, 2, 3] #     squared_list = [] #     for x in my_list: #         squared_list.append(x**2)  # Regular loop #     return squared_list
 # noStringScript = StringFormat("CodeMeasure/LOC.py") RUN WITH RUN BUTTON
 
-noStringScript = str(StringFormat("../LOC.py"))
+noStringScript = str(StringFormat("../TestScripts/FloHw2Pr3.py"))
 
 # print(noStringScript)
 
