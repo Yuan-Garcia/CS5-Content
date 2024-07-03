@@ -17,8 +17,8 @@ client = OpenAI(
 # def function_without_list_comp(): #     my_list = [1, 2, 3] #     squared_list = [] #     for x in my_list: #         squared_list.append(x**2)  # Regular loop #     return squared_list
 # noStringScript = StringFormat("CodeMeasure/LOC.py") RUN WITH RUN BUTTON
 
-noStringScript = StringFormat("/Users/summer-2024-0/Documents/GitHub/CS5-Content/CodeMeasure/gptAPI/requests.py")
-print(noStringScript.finalString)
+noStringScript = str(StringFormat("../LOC.py"))
+print(noStringScript)
 
 
 # messages = [
@@ -27,21 +27,21 @@ print(noStringScript.finalString)
 #             {"role": "user", "content": "Break down line by line what this function does?"}
 #         ]
 
-# messages = [
-#             {"role": "system", "content": "You are a helpful assistant that helps me breaks down the meaning of functions."},
-#             {"role": "user", "content": noStringScript}, 
-#             {"role": "user", "content": "Break down line by line what this function does?"}
-#         ]
+messages = [
+            {"role": "system", "content": "You are a helpful assistant that helps me breaks down the meaning of functions."},
+            {"role": "user", "content": noStringScript}, 
+            {"role": "user", "content": "Break down line by line what this function does?"}
+        ]
 
 
 
-def get_response():  
-    response = client.chat.completions.create(
-        model = "gpt-3.5-turbo",
-        messages = messages
-    )
-    print(response.choices[0])
-    return response.choices[0].message.content
+# def get_response():  
+#     response = client.chat.completions.create(
+#         model = "gpt-3.5-turbo",
+#         messages = messages
+#     )
+#     print(response.choices[0])
+#     return response.choices[0].message.content
 
 
-print(get_response())
+# print(get_response())
