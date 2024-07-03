@@ -59,19 +59,19 @@ class CallChain:
         # print('Longest chain contains: ', longestPath)
         return self.findMaxDepth(longestPath), longestPath
 
-    def findMaxDepth2(self, nestedList, currentDepth=1):
-        if not isinstance(nestedList, list) or not nestedList:
-            return [ currentDepth, [nestedList] ]
-        maxDepth = currentDepth
-        for item in nestedList:  # so, nestedList is a list!
-            if isinstance(item, list):
-                depth = self.findMaxDepth(item, currentDepth + 1)
-                if depth[0] > maxDepth:
-                    return depth
-                else:
-                    return ""
-                #maxDepth = max(maxDepth, depth)
-        return maxDepth, 
+    # def findMaxDepth2(self, nestedList, currentDepth=1):
+    #     if not isinstance(nestedList, list) or not nestedList:
+    #         return [ currentDepth, [nestedList] ]
+    #     maxDepth = currentDepth
+    #     for item in nestedList:  # so, nestedList is a list!
+    #         if isinstance(item, list):
+    #             depth = self.findMaxDepth(item, currentDepth + 1)
+    #             if depth[0] > maxDepth:
+    #                 return depth
+    #             else:
+    #                 return ""
+    #             #maxDepth = max(maxDepth, depth)
+    #     return maxDepth, 
    
     def findMaxDepth(self, nestedList, currentDepth=1):
         if not isinstance(nestedList, list) or not nestedList:
