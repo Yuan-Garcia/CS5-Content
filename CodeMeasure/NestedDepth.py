@@ -74,9 +74,9 @@ class CallChain:
             if self.findMaxDepth(i)+depth == maxDepth:
                 return nestedList[0]
             elif self.findMaxDepth(i) > 1:
-                return self.depthParsing(i, depth + 1)
-        
-    print(self.depthParsing(['playGame', ['addMove'], ['allowsMove'], ['isFull'], ['winsFor'], ['nextMove', ['tiebreakMove'], ['scoresFor'], ['tiebreakMove'], ['scoresFor']], ['addMove'], ['allowsMove'], ['isFull'], ['winsFor'], ['nextMove', ['tiebreakMove'], ['scoresFor'], ['tiebreakMove'], ['scoresFor']]],0))           
+                return self.depthParsing(i, depth + 1) + i[0]
+    
+    
                 
 
 
