@@ -230,20 +230,5 @@ print(f"{'The average calls is: ':<{alignment_width}}" + bold_colored_text(depth
 
 '''DEBUGGING STATEMENTS'''
 
-# print('NAMES')
-# for n, i in enumerate(funcName(scriptPath)):
-#     print(n)
-#     print(i)
-
-# print('FUNCTIONS')
-# for n, i in enumerate((splitFunc(scriptPath))):
-#     print(n)
-#     print(i)
-# print((splitFunc(totalScriptList)))
-
-# testing on LOC.py
-#print(removeComments(inputfiletest2.read()))
-#print(inputfiletest2.read())
-#print(commentCheck(inputfile.read()))
 
 
