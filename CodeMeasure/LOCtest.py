@@ -190,18 +190,18 @@ def color_boolean(value):
 # print(f"{'These functions are:':<{alignment_width}}" + bold_colored_text(funcName(totalScriptList), COLOR_GREEN))
 # print(f"{'The total Cyclomatic Complexity is:':<{alignment_width}}" + bold_colored_text(calculate_cyclomatic_complexity(open(scriptPath, "r").read()), COLOR_BLUE))
 
-depthChain = CallChain(splitFunc(scriptPath), funcName(scriptPath))
-ambitionScore = depthChain.depth
-print(f"{'The highest level of function nesting is:':<{alignment_width}}" + bold_colored_text(ambitionScore, COLOR_BLUE))
-print(f"{'The longest chain of function calls is:':<{alignment_width}}" + bold_colored_text(depthChain.longestChain, COLOR_BLUE))
+depthChain = CallChain()#splitFunc(scriptPath), funcName(scriptPath))
+#ambitionScore = depthChain.depth
+#print(f"{'The highest level of function nesting is:':<{alignment_width}}" + bold_colored_text(ambitionScore, COLOR_BLUE))
+#print(f"{'The longest chain of function calls is:':<{alignment_width}}" + bold_colored_text(depthChain.longestChain, COLOR_BLUE))
 
-print(f"{'The most function calls within a function:':<{alignment_width}}" + bold_colored_text(depthChain.maxFunctionCalls, COLOR_BLUE))
-print(depthChain.depthParsing(['playGame', ['addMove'], ['allowsMove'], ['isFull'], ['winsFor'], ['nextMove', ['tiebreakMove'], ['scoresFor'], ['tiebreakMove'], ['scoresFor']], ['addMove'], ['allowsMove'], ['isFull'], ['winsFor'], ['nextMove', ['tiebreakMove'], ['scoresFor'], ['tiebreakMove'], ['scoresFor']]],0))           
-print(f"{'The function with the most calls is:':<{alignment_width}}" + bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE))
-print(f"{'The calls in '+ bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE):}" +" include " + bold_colored_text(depthChain.maxFunctionCallsList, COLOR_BLUE))
+#print(f"{'The most function calls within a function:':<{alignment_width}}" + bold_colored_text(depthChain.maxFunctionCalls, COLOR_BLUE))
+print(depthChain.findMaxDepth(['hostGame', ['addMove'], ['allowsMove'], ['isFull'], ['winsFor'], ['aiMove', ['allowsMove'], ['colsToWin', ['addMove'], ['allowsMove'], ['delMove'], ['winsFor'], ['addMove'], ['allowsMove'], ['delMove'], ['winsFor']], ['allowsMove'], ['colsToWin', ['addMove'], ['allowsMove'], ['delMove'], ['winsFor'], ['addMove'], ['allowsMove'], ['delMove'], ['winsFor']]], ['addMove'], ['allowsMove'], ['isFull'], ['winsFor'], ['aiMove', ['allowsMove'], ['colsToWin', ['addMove'], ['allowsMove'], ['delMove'], ['winsFor'], ['addMove'], ['allowsMove'], ['delMove'], ['winsFor']], ['allowsMove'], ['colsToWin', ['addMove'], ['allowsMove'], ['delMove'], ['winsFor'], ['addMove'], ['allowsMove'], ['delMove'], ['winsFor']]]]))           
+#print(f"{'The function with the most calls is:':<{alignment_width}}" + bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE))
+#print(f"{'The calls in '+ bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE):}" +" include " + bold_colored_text(depthChain.maxFunctionCallsList, COLOR_BLUE))
 
-print(f"{'The average depth is :':<{alignment_width}}" + bold_colored_text(depthChain.averageDepth, COLOR_BLUE))
-print(f"{'The average calls is: ':<{alignment_width}}" + bold_colored_text(depthChain.averageCalls, COLOR_BLUE))
+#print(f"{'The average depth is :':<{alignment_width}}" + bold_colored_text(depthChain.averageDepth, COLOR_BLUE))
+#print(f"{'The average calls is: ':<{alignment_width}}" + bold_colored_text(depthChain.averageCalls, COLOR_BLUE))
 
 
 

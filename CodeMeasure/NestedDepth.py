@@ -1,19 +1,20 @@
 import re
 
 class CallChain:
-    def __init__(self, functions, funcNames):
-        self.functions = functions
-        self.names = funcNames
-        self.depth = self.findLongestBranch()[0]
-        self.longestChain = self.findLongestBranch()[1]
-        self.totalFuncCalls = 0 # gets updated after self.maxFunctionCalls is initialized
+    def __init__(self, functions='', funcNames=''):
+        # self.functions = functions
+        # self.names = funcNames
+        # self.depth = self.findLongestBranch()[0]
+        # self.longestChain = self.findLongestBranch()[1]
+        # self.totalFuncCalls = 0 # gets updated after self.maxFunctionCalls is initialized
 
-        self.maxFunctionCalls = self.findFunctionCalls()[0] 
-        self.maxFunctionCallsList = self.findFunctionCalls()[1] # list of function calls in function with the most calls
-        self.functionMostCalls = self.maxFunctionCallsList[0] # function with the most calls
+        # self.maxFunctionCalls = self.findFunctionCalls()[0] 
+        # self.maxFunctionCallsList = self.findFunctionCalls()[1] # list of function calls in function with the most calls
+        # self.functionMostCalls = self.maxFunctionCallsList[0] # function with the most calls
 
-        self.averageDepth = self.depth/len(self.names)
-        self.averageCalls = self.totalFuncCalls/len(self.names)
+        # #self.averageDepth = self.depth/len(self.names)
+        # self.averageCalls = self.totalFuncCalls/len(self.names)
+        pass
 
 
     def findBranches(self, func, funcs, names, currentPath):
@@ -58,23 +59,61 @@ class CallChain:
         # print('Longest chain contains: ', longestPath)
         return self.findMaxDepth(longestPath), longestPath
 
-    def findMaxDepth(self, nestedList, currentDepth=1):
+    def findMaxDepth2(self, nestedList, currentDepth=1):
         if not isinstance(nestedList, list) or not nestedList:
-            return currentDepth
+            return [ currentDepth, [nestedList] ]
         maxDepth = currentDepth
-        for item in nestedList:
+        for item in nestedList:  # so, nestedList is a list!
             if isinstance(item, list):
                 depth = self.findMaxDepth(item, currentDepth + 1)
-                maxDepth = max(maxDepth, depth)
-        return maxDepth
-    
-    def depthParsing(self, nestedList, depth):
-        maxDepth = self.findMaxDepth(nestedList)
-        for i in nestedList:
-            if self.findMaxDepth(i)+depth == maxDepth:
-                return nestedList[0]
-            elif self.findMaxDepth(i) > 1:
-                return self.depthParsing(i, depth + 1) + i[0]
+                if depth[0] > maxDepth:
+                    return depth
+                else:
+                    return ""
+                #maxDepth = max(maxDepth, depth)
+        return maxDepth, 
+   
+    def findMaxDepth(self, nestedList, currentDepth=1):
+        if not isinstance(nestedList, list) or not nestedList:
+            return [ 0, [nestedList] ]
+        if nestedList == []:
+            return [ 0, [] ]
+        if type(nestedList[0]) != type(''):
+            print("Illegal!", nestedList)
+            return 42
+        maxDepth = currentDepth
+        best_depth = 0
+        best_cp = []
+        best_name = nestedList[0]
+        for item in nestedList:  # so, nestedList is a list!
+            item_depth_pair = self.findMaxDepth(item, currentDepth + 1)
+            item_depth = item_depth_pair[0]
+            item_cp = item_depth_pair[1]
+            if item_depth > best_depth:
+                best_depth = item_depth
+                best_cp = item_cp
+        retvalue = [ best_depth+1, [ best_name ] + best_cp ]
+        #print(f"{retvalue = }")
+        return [ best_depth+1,  [ best_name ] + best_cp ]
+        
+            
+
+                #maxDepth = max(maxDepth, depth)
+        return maxDepth, 
+
+
+
+
+
+
+
+    # def depthParsing(self, nestedList, depth):
+    #     maxDepth = self.findMaxDepth(nestedList)
+    #     for i in nestedList:
+    #         if self.findMaxDepth(i)+depth == maxDepth:
+    #             return nestedList[0]
+    #         elif self.findMaxDepth(i) > 1:
+    #             return self.depthParsing(i, depth + 1).append(i)
     
     
                 
