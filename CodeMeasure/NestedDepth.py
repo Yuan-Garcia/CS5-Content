@@ -1,21 +1,23 @@
 import re
 
 class CallChain:
-    def __init__(self, functions='', funcNames=''):
-        # self.functions = functions
-        # self.names = funcNames
-        # self.depth = self.findLongestBranch()[0]
-        # self.longestChain = self.findLongestBranch()[1]
-        # self.totalFuncCalls = 0 # gets updated after self.maxFunctionCalls is initialized
+    def __init__(self, functions=None, funcNames=None):
+        if functions is None and funcNames is None:
+            return
+        
+        self.functions = functions
+        self.names = funcNames
+        self.depth = self.findLongestBranch()[0]
+        self.longestChain = self.findLongestBranch()[1]
+        self.totalFuncCalls = 0 # gets updated after self.maxFunctionCalls is initialized
 
-        # self.maxFunctionCalls = self.findFunctionCalls()[0] 
-        # self.maxFunctionCallsList = self.findFunctionCalls()[1] # list of function calls in function with the most calls
-        # self.functionMostCalls = self.maxFunctionCallsList[0] # function with the most calls
+        self.maxFunctionCalls = self.findFunctionCalls()[0] 
+        self.maxFunctionCallsList = self.findFunctionCalls()[1] # list of function calls in function with the most calls
+        self.functionMostCalls = self.maxFunctionCallsList[0] # function with the most calls
 
-        # #self.averageDepth = self.depth/len(self.names)
-        # self.averageCalls = self.totalFuncCalls/len(self.names)
-        pass
-
+        self.averageDepth = self.depth/len(self.names)
+        self.averageCalls = self.totalFuncCalls/len(self.names)
+        
 
     def findBranches(self, func, funcs, names, currentPath):
         funcBody = func.split(':', 1)[1].strip()  # get everything behind the colon
@@ -59,20 +61,6 @@ class CallChain:
         # print('Longest chain contains: ', longestPath)
         return self.findMaxDepth(longestPath), longestPath
 
-    # def findMaxDepth2(self, nestedList, currentDepth=1):
-    #     if not isinstance(nestedList, list) or not nestedList:
-    #         return [ currentDepth, [nestedList] ]
-    #     maxDepth = currentDepth
-    #     for item in nestedList:  # so, nestedList is a list!
-    #         if isinstance(item, list):
-    #             depth = self.findMaxDepth(item, currentDepth + 1)
-    #             if depth[0] > maxDepth:
-    #                 return depth
-    #             else:
-    #                 return ""
-    #             #maxDepth = max(maxDepth, depth)
-    #     return maxDepth, 
-   
     def findMaxDepth(self, nestedList, currentDepth=1):
         if not isinstance(nestedList, list) or not nestedList:
             return [ 0, [nestedList] ]
@@ -95,31 +83,7 @@ class CallChain:
         retvalue = [ best_depth+1, [ best_name ] + best_cp ]
         #print(f"{retvalue = }")
         return [ best_depth+1,  [ best_name ] + best_cp ]
-        
-            
-
-                #maxDepth = max(maxDepth, depth)
-        return maxDepth, 
-
-
-
-
-
-
-
-    # def depthParsing(self, nestedList, depth):
-    #     maxDepth = self.findMaxDepth(nestedList)
-    #     for i in nestedList:
-    #         if self.findMaxDepth(i)+depth == maxDepth:
-    #             return nestedList[0]
-    #         elif self.findMaxDepth(i) > 1:
-    #             return self.depthParsing(i, depth + 1).append(i)
-    
-    
-                
-
-
-
+   
     def findFunctionCalls(self): # How many function calls inside a function, ignoring depth and recursion
         callsList = []
         maxCalls = 1
