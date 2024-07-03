@@ -62,55 +62,6 @@ def funcName(scriptPath):
     # return ansList
     
 
-# def findLongestBranch(fullScript): # longest chain of dependencies without recursion 
-#     functions = splitFunc(fullScript)
-#     names = funcName(fullScript)
-
-#     allPaths = []
-    
-    
-#     # print(functions)
-#     # print(names)
-#     for func in functions:
-#         currentPath = []
-#         print("\n\n\nCURRENT FUNCTION!!", func)
-#         currentPath.append(re.search("def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(", func).group(1))
-#         path = findBranches(func, functions, names, currentPath)
-#         print('currentPath appending', path)
-#         allPaths.append(path)
-#         print('allpafs =', allPaths)
-#     print('longest chain length is', len(max(allPaths, key=len)))
-#     print('Longest chain contains: ', max(allPaths, key=len))
-#     return len(max(allPaths, key=len))
-    
-
-# def findBranches(func, funcs, names, currentPath):
-#     name = names[:] # shallow copy 
-#     funcBody = func.split(':', 1)[1].strip() #get everything behind the colon 
-
-#     funcName = re.search("def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(", func).group(1) # before colon
-#     print("Funkshun name is\n", funcName)
-#     print("Funkshun Bawdy is\n", funcBody)
-#     isRecursive = funcName in funcBody
-#     # print(isRecursive)
-#     # base case: if there is no function call in the function
-#     if isRecursive or not any(name in funcBody for name in names): # if function doesnt have another function call or function is recursive, terminate
-#         print("was recursive? ", isRecursive)
-#         print('returning path', currentPath)
-
-#         return currentPath
-#     else:
-#         for name in names:  # if yes, add it to the current path 
-#             if name in funcBody and not isRecursive:
-#                 currentPath.append(name)
-#                 print("MADE IT TO THE ELSE")
-#                 print('current name in path =', name)
-#                 # names = names.remove(name)
-#                 nextFunc = funcs[names.index(name)] # go to function that just got called 
-#                 print(nextFunc)
-#             # names = names.remove(name)
-#         return findBranches(nextFunc, funcs, names, currentPath)
-
 def containsString(str, noCommentScriptStr):
     wordScript = noCommentScriptStr.split(" ")
     for i in wordScript:
@@ -201,7 +152,7 @@ totalScriptList = []
 
 # CHANGE THE SCRIPT HERE
 # ---------------------------
-scriptPath = "CodeMeasure/TestScripts/tetris.py"
+scriptPath = "CodeMeasure/LOC.py"
 # ---------------------------
 
 
@@ -248,6 +199,9 @@ print(f"{'The most function calls within a function:':<{alignment_width}}" + bol
 
 print(f"{'The function with the most calls is:':<{alignment_width}}" + bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE))
 print(f"{'The calls in '+ bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE):}" +" include " + bold_colored_text(depthChain.maxFunctionCallsList, COLOR_BLUE))
+
+print(f"{'The average depth is :':<{alignment_width}}" + bold_colored_text(depthChain.averageDepth, COLOR_BLUE))
+print(f"{'The average calls is: ':<{alignment_width}}" + bold_colored_text(depthChain.averageCalls, COLOR_BLUE))
 
 
 
