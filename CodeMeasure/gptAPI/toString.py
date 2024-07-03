@@ -5,8 +5,8 @@ class StringFormat:
     def __init__(self, path):
         self.path = path
         with open(path, "r") as file:
-            full_script = file.read()
-        self.noComments = self.removeComments(full_script)
+            self.full_script = file.read()
+        self.noComments = self.removeComments(self.full_script)
         self.finalString = self.removeTabNewLn(self.noComments)  
 
     def removeComments(self, fullScript):

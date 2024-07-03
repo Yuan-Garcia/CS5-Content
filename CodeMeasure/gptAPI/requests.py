@@ -18,7 +18,7 @@ client = OpenAI(
 # noStringScript = StringFormat("CodeMeasure/LOC.py") RUN WITH RUN BUTTON
 
 noStringScript = str(StringFormat("../LOC.py"))
-print(noStringScript)
+# print(noStringScript)
 
 
 # messages = [
