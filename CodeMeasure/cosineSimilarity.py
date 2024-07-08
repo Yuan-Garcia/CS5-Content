@@ -2,8 +2,8 @@ import numpy as np
 
 ###################
 # edit as needed, later will be replaced by inputs generated from the requests.py script
-A = np.array([1, 2, 3])
-B = np.array([4, 5, 6])
+A = np.array([1, 1, 1, 1, 0])
+B = np.array([1, 1, 0, 0, 1])
 ###################
 
 
