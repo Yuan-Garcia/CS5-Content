@@ -1,5 +1,6 @@
 import numpy as np
 
+# code from "How to IMPLEMENT Cosine Similarity from in Python" by DataStax <-- Medium
 ###################
 # edit as needed, later will be replaced by inputs generated from the requests.py script
 A = np.array([1, 1, 1, 1, 0])
