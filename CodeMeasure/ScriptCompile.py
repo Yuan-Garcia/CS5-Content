@@ -51,7 +51,7 @@ def clearOutputFile(outputFile):
     with open(outputFile, 'w') as outfile:
         outfile.write("")
 
-
+# Copy paste this whole block if you want to run it from another file
 if __name__ == "__main__":
     path = "CodeMeasure/TestScripts" # change to directory of folder
     outputFile = "combinedScript.py"
