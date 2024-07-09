@@ -9,6 +9,7 @@ class CallChain:
         self.names = funcNames
         self.depth = self.findLongestBranch()[0]
         self.longestChain = self.findLongestBranch()[1]
+        self.funcLongestChain = self.longestChain[0]
         self.totalFuncCalls = 0 # gets updated after self.maxFunctionCalls is initialized
 
         self.maxFunctionCalls = self.findFunctionCalls()[0] 
@@ -59,7 +60,7 @@ class CallChain:
         longestPath = max(allPaths, key=lambda x: self.findMaxDepth(x))
         # print('longest chain length is', self.findMaxDepth(longestPath))
         # print('Longest chain contains: ', longestPath)
-        return self.findMaxDepth(longestPath), longestPath
+        return self.findMaxDepth(longestPath)[0], self.findMaxDepth(longestPath)[1]
 
     def findMaxDepth(self, nestedList, currentDepth=1):
         if not isinstance(nestedList, list) or not nestedList:
