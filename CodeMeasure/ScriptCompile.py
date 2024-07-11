@@ -40,7 +40,7 @@ def combineScripts(path, outputFile):
     with open(outputFile, 'w') as outfile:
         for root, _, files in os.walk(path):
             for file in files:
-                if file.endswith('.py'):
+                if file.endswith('final.py'):
                     filePath = os.path.join(root, file)
                     with open(filePath, 'r') as infile:
                         outfile.write(f"# File: {filePath}\n")
