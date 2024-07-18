@@ -1,5 +1,6 @@
 import re  
 import ast
+# import pygame
 from Cyclomatic import *
 from NestedDepth import CallChain 
 
@@ -140,8 +141,8 @@ totalScriptList = []
 
 # CHANGE THE SCRIPT HERE
 # ---------------------------
-# scriptPath = "CodeMeasure/TestScripts/tetris.py"
-scriptPath = "CodeMeasure/LOC.py"
+scriptPath = "CodeMeasure/TestScripts/connect4.py"
+# scriptPath = "CodeMeasure/LOC.py"
 
 # ---------------------------
 
@@ -158,6 +159,7 @@ def bold_colored_text(text, color_code):
     return f"\033[1;{color_code}m{text}\033[0m"
 
 # Color codes
+# pygame.init()
 COLOR_BLUE = 34
 COLOR_GREEN = 32
 COLOR_RED = 31
@@ -190,8 +192,8 @@ print(f"{'The most function calls within a function:':<{alignment_width}}" + bol
 print(f"{'The function with the most calls is:':<{alignment_width}}" + bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE))
 print(f"{'The calls in '+ bold_colored_text(depthChain.functionMostCalls, COLOR_BLUE):}" +" include " + bold_colored_text(depthChain.maxFunctionCallsList, COLOR_BLUE))
 
-print(f"{'The average depth is:':<{alignment_width}}" + bold_colored_text(f"{depthChain.averageDepth:.1f}", COLOR_BLUE))
-print(f"{'The average calls is: ':<{alignment_width}}" + bold_colored_text(f"{depthChain.averageCalls:.1f}", COLOR_BLUE))
+# print(f"{'The average depth is:':<{alignment_width}}" + bold_colored_text(f"{depthChain.averageDepth:.1f}", COLOR_BLUE))
+# print(f"{'The average calls is: ':<{alignment_width}}" + bold_colored_text(f"{depthChain.averageCalls:.1f}", COLOR_BLUE))
 
 
 

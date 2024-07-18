@@ -33,10 +33,27 @@ function()
     
 
 # WEEK 3
-    # Rachel+Jonathan
-
+'''
+    List is some string
+    List Changed iterates through List
+     and calls method on each element
+ 
+'''
 # WEEK 4
 
+"""
+String = "SlicingIsEasy"
+
+String[start:stop]
+String[2:4] --> "ici"
+
+String[start:stop:step]
+String[2::2] --> "iigsay" 
+
+String[start:stop:negativeStep] --> reverse slicing
+String[:0:-2] --> "yasgii"
+
+"""
 # WEEK 5
 
 # WEEK 6
