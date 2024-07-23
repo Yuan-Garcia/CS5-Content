@@ -24,7 +24,8 @@ print(str)
    
 
 # WEEK 2
-    # functions / returns / slicing
+    # functions / returns 
+    
     # Jenny+Yuan   
 
  
@@ -33,7 +34,17 @@ print(str)
     # Rachel+Jonathan
 
 # WEEK 4
+'''
+slice = "Thereisprobablynosecretmessage!"
 
+In: slice[6:8] + slice[11] + slice[23]
+Out: ?
+
+reverseStep = "eagsadsfsgehmjskdlr;azwxkccvabb"
+In: reverseStep[::-2]
+Out: ?
+
+'''
 # WEEK 5
 
 # WEEK 6
